@@ -1,0 +1,17 @@
+*
+
+!/.gitignore
+!/README.md
+!/4
+!/4/1
+!/4/1/1
+!/4/1/1/tests
+!/4/1/1/main.py
+!/4/1/1/requirements.txt
+!/4/1/1/Dockerfile
+!/4/1/1/.dockerignore
+!/4/1/2
+!/4/1/2/main.py
+!/4/1/2/requirements.txt
+!/4/1/2/Dockerfile
+!/4/1/2/.dockerignore
