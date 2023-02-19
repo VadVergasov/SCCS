@@ -1,5 +1,6 @@
 import sys
 import os
+import random
 
 import ujson
 
@@ -50,3 +51,12 @@ first = float(first)
 second = float(second)
 
 print(operation(first, second, oper))
+
+numbers = []
+
+for _ in range(random.randint(10, 100)):
+    numbers.append(random.randint(1, 1000))
+
+numbers = list(filter(lambda number: number % 2 == 0, numbers))
+
+print(numbers)
