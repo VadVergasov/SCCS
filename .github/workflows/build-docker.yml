@@ -23,6 +23,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v4
         with:
-          context: "{{ defaultContext }}:${{ matrix.path }}"
+          context: "./${{ matrix.path }}"
+          file: "./${{ matrix.path }}/Dockerfile"
           push: true
           tags: ${{ matrix.tag }},${{ matrix.tag }}:${{ matrix.version }}
