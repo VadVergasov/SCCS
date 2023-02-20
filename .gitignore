@@ -17,3 +17,8 @@
 !/4/2/2/Dockerfile
 !/4/2/2/.dockerignore
 !/4/2/2/tests
+
+!/.github
+!/.github/workflows
+!/.github/workflows/build-docker.yml
+!/.github/workflows/matrix_includes.json
