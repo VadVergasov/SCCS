@@ -8,7 +8,7 @@ jobs:
     outputs:
       matrix: ${{ steps.set-matrix.outputs.matrix }}
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - id: set-matrix
         uses: JoshuaTheMiller/conditional-build-matrix@main
         with:
@@ -20,7 +20,7 @@ jobs:
     name: Build
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: nelonoel/branch-name@v1.0.1
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
