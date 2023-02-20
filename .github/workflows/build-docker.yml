@@ -1,9 +1,6 @@
 name: Building docker images
 
-on:
-  push:
-    branches:
-      - "master"
+on: push
 
 jobs:
   matrix_prep:
