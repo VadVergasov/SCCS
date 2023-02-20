@@ -36,5 +36,5 @@ jobs:
           file: "./${{ matrix.path }}/Dockerfile"
           push: ${{ env.BRANCH_NAME == 'master' }}
           tags: ${{ matrix.tag }},${{ matrix.tag }}:${{ matrix.version }}
-          cache-to: ~/docker-cache
-          cache-from: ~/docker-cache
+          cache-to: type=local,src=~/docker-cache
+          cache-from: type=local,dest=~/docker-cache
