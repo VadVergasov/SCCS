@@ -13,7 +13,6 @@ jobs:
         uses: JoshuaTheMiller/conditional-build-matrix@main
         with:
           filter: "[]"
-      - run: echo ${{ steps.set-matrix.outputs.matrix }}
   build:
     needs: matrix_prep
     strategy:
