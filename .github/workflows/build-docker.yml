@@ -17,7 +17,7 @@ jobs:
   build:
     needs: matrix_prep
     strategy:
-      matrix: ${{ fromJson(steps.matrix_prep.outputs.matrix) }}
+      matrix: ${{ fromJson(needs.matrix_prep.outputs.matrix) }}
     name: Build
     runs-on: ubuntu-latest
     steps:
