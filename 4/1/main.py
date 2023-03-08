@@ -43,7 +43,6 @@ def operation(first: float, second: float, oper: str) -> float:
                     return first - second
                 case "+":
                     return first + second
-    return 0
 
 
 first, second, oper = input().split(" ")
