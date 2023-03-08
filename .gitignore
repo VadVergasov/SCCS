@@ -22,6 +22,8 @@
 !/4/2/1/main.py
 !/4/2/1/requirements.txt
 !/4/2/1/tests
+!/4/2/1/utilities
+!/4/2/1/utilities/helpers.py
 
 !/.github
 !/.github/workflows
