@@ -26,7 +26,12 @@ def main() -> None:
     print(get_non_declarative_sentences_count(text))
     print(get_average_words_count(text))
     print(get_average_word_length(text))
-    print(get_top_k_n_grams(text))
+
+    try:
+        n, k = map(int, input("Enter n and k (or interrupt input to use n=4 and k=10): ").split())
+        print(get_top_k_n_grams(text, k, n))
+    except KeyboardInterrupt:
+        print(get_top_k_n_grams(text))
 
 
 if __name__ == "__main__":
