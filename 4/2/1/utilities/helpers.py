@@ -1,20 +1,33 @@
 """
 Help function for working with text
 """
+import re
 from itertools import chain
+
+ABBREVIATIONS: list[str] = ["Mr.", "Mrs.", "Ph.D.", "Lt.", "Rep.", "Dr.", "B.A.", "a.m."]
 
 def split_to_sentences(text: str) -> list[str]:
     """
     Function splits text into sentences
     """
-    # TODO
+    sentences: list[str] = re.findall(r"(?:(?:\w+)(?:[^a-zA-Z0-9\.!?]+|[\.!?\.\.\.]))+", text)
+    result: list[str] = sentences
+    for sentence in sentences:
+        for abbreviation in ABBREVIATIONS:
+            if sentence.endswith(abbreviation):
+                index = result.index(sentence)
+                result[index] = ' '.join(result[index:index + 2])
+                result.remove(result[index + 1])
+    return result
 
 
 def split_to_words(sentence: str) -> list[str]:
     """
     Function splits sentence into words
     """
-    # TODO
+    words: list[str] = re.findall(r"([\w’']+)", sentence)
+    words = [word for word in words if not word.isdigit()]
+    return words
 
 
 def get_non_declarative_sentences_count(text: str) -> int:
@@ -34,10 +47,11 @@ def get_average_words_count(text: str) -> float:
     Function counts average sententece length
     """
     sentences = split_to_sentences(text)
-    word_count: int = 0
+    symbols_count: int = 0
     for sentence in sentences:
-        word_count += len(split_to_words(sentence))
-    return word_count / len(sentences)
+        for word in split_to_words(sentence):
+            symbols_count += len(word)
+    return symbols_count / len(sentences)
 
 
 def get_average_word_length(text: str) -> float:
@@ -58,12 +72,12 @@ def get_top_k_n_grams(text: str, k: int = 10, n: int = 4) -> list[tuple[str, int
     """
     Function returns top-K repeated N-grams in the text
     """
-    words = list(
+    words: list[str] = list(
         chain.from_iterable(
             [split_to_words(sentence) for sentence in split_to_sentences(text)]
         )
     )
-    n_grams = [
+    n_grams: list[str] = [
         ' '.join(slice) for slice in [
             words[pos:pos + n] for pos in range(len(words) - n)
         ]
@@ -74,7 +88,7 @@ def get_top_k_n_grams(text: str, k: int = 10, n: int = 4) -> list[tuple[str, int
             count[n_gram] += 1
         else:
             count.update({n_gram: 1})
-    result = list(
+    result: list[tuple[str, int]] = list(
         dict(
             reversed(sorted(count.items(), key=lambda item: item[1]))
         ).items()

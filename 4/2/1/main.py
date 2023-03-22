@@ -11,10 +11,8 @@ from utilities.helpers import (
     get_top_k_n_grams,
 )
 
-abbreviations = []
-
 try:
-    with open(os.path.join("/data", "text.txt"), "r", encoding="utf8") as fp:
+    with open(os.path.join("data", "text.txt"), "r", encoding="utf8") as fp:
         text = fp.read()
 except FileNotFoundError:
     print("No text.txt file, nothing to analyze!")
