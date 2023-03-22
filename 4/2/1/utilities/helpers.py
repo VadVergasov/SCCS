@@ -30,6 +30,7 @@ def split_to_sentences(text: str) -> list[str]:
                 index = result.index(sentence)
                 result[index] = " ".join(result[index : index + 2])
                 result.remove(result[index + 1])
+
     return result
 
 
@@ -39,6 +40,7 @@ def split_to_words(sentence: str) -> list[str]:
     """
     words: list[str] = re.findall(r"([\w’']+)", sentence)
     words = [word for word in words if not word.isdigit()]
+
     return words
 
 
@@ -54,6 +56,7 @@ def get_non_declarative_sentences_count(text: str) -> int:
             if not (sentence.endswith(".") or sentence.endswith("..."))
         ]
     )
+
     return result
 
 
@@ -66,6 +69,7 @@ def get_average_words_count(text: str) -> float:
     for sentence in sentences:
         for word in split_to_words(sentence):
             symbols_count += len(word)
+
     return symbols_count / len(sentences)
 
 
@@ -80,6 +84,7 @@ def get_average_word_length(text: str) -> float:
         word_count += len(words)
         for word in words:
             char_count += len(word)
+
     return char_count / word_count
 
 
@@ -105,4 +110,5 @@ def get_top_k_n_grams(text: str, k: int = 10, n: int = 4) -> list[tuple[str, int
     result: list[tuple[str, int]] = list(
         dict(reversed(sorted(count.items(), key=lambda item: item[1]))).items()
     )
+
     return result[:k]

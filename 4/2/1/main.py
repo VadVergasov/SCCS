@@ -13,6 +13,9 @@ from utilities.helpers import (
 
 
 def main() -> None:
+    """
+    Entry point for this task
+    """
     try:
         with open(os.path.join("data", "text.txt"), "r", encoding="utf8") as fp:
             text = fp.read()
