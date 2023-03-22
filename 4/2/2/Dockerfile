@@ -7,6 +7,6 @@ WORKDIR /program
 
 RUN pip install --no-cache-dir -r requirements.txt
 
-VOLUME ["/data"]
+VOLUME ["/program/data"]
 
 CMD ["python", "/program/main.py"]

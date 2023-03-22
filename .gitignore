@@ -11,12 +11,6 @@
 !/4/1/.dockerignore
 !/4/2
 !/4/2/1
-!/4/2/2
-!/4/2/2/main.py
-!/4/2/2/requirements.txt
-!/4/2/2/Dockerfile
-!/4/2/2/.dockerignore
-!/4/2/2/tests
 !/4/2/1/.dockerignore
 !/4/2/1/Dockerfile
 !/4/2/1/main.py
@@ -24,6 +18,14 @@
 !/4/2/1/tests
 !/4/2/1/utilities
 !/4/2/1/utilities/helpers.py
+!/4/2/2
+!/4/2/2/main.py
+!/4/2/2/requirements.txt
+!/4/2/2/Dockerfile
+!/4/2/2/.dockerignore
+!/4/2/2/tests
+!/4/2/2/entities
+!/4/2/2/entities/user.py
 
 !/.github
 !/.github/workflows
