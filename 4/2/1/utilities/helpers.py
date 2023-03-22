@@ -3,24 +3,18 @@ Help function for working with text
 """
 from itertools import chain
 
-import nltk
-
-
 def split_to_sentences(text: str) -> list[str]:
     """
     Function splits text into sentences
     """
-    sentences = nltk.sent_tokenize(text)
-    return sentences
+    # TODO
 
 
 def split_to_words(sentence: str) -> list[str]:
     """
     Function splits sentence into words
     """
-    words = nltk.word_tokenize(sentence)
-    words = [word for word in words if word.isalnum()]
-    return words
+    # TODO
 
 
 def get_non_declarative_sentences_count(text: str) -> int:

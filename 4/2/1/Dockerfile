@@ -6,7 +6,6 @@ COPY requirements.txt /program/
 WORKDIR /program
 
 RUN pip install --no-cache-dir -r requirements.txt
-RUN python -m nltk.downloader all -d /program/ && find -type f -name '*.zip' -delete
 
 COPY . /program/
 
