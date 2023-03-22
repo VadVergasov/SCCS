@@ -4,19 +4,31 @@ Help function for working with text
 import re
 from itertools import chain
 
-ABBREVIATIONS: list[str] = ["Mr.", "Mrs.", "Ph.D.", "Lt.", "Rep.", "Dr.", "B.A.", "a.m."]
+ABBREVIATIONS: list[str] = [
+    "Mr.",
+    "Mrs.",
+    "Ph.D.",
+    "Lt.",
+    "Rep.",
+    "Dr.",
+    "B.A.",
+    "a.m.",
+]
+
 
 def split_to_sentences(text: str) -> list[str]:
     """
     Function splits text into sentences
     """
-    sentences: list[str] = re.findall(r"(?:(?:\w+)(?:[^a-zA-Z0-9\.!?]+|[\.!?\.\.\.]))+", text)
+    sentences: list[str] = re.findall(
+        r"(?:(?:\w+)(?:[^a-zA-Z0-9\.!?]+|[\.!?\.\.\.]))+", text
+    )
     result: list[str] = sentences
     for sentence in sentences:
         for abbreviation in ABBREVIATIONS:
             if sentence.endswith(abbreviation):
                 index = result.index(sentence)
-                result[index] = ' '.join(result[index:index + 2])
+                result[index] = " ".join(result[index : index + 2])
                 result.remove(result[index + 1])
     return result
 
@@ -35,10 +47,13 @@ def get_non_declarative_sentences_count(text: str) -> int:
     Function counts non declarative sentences
     """
     sentences = split_to_sentences(text)
-    result: int = len([
-        sentence for sentence in sentences
-        if not (sentence.endswith('.') or sentence.endswith('...'))
-    ])
+    result: int = len(
+        [
+            sentence
+            for sentence in sentences
+            if not (sentence.endswith(".") or sentence.endswith("..."))
+        ]
+    )
     return result
 
 
@@ -78,9 +93,8 @@ def get_top_k_n_grams(text: str, k: int = 10, n: int = 4) -> list[tuple[str, int
         )
     )
     n_grams: list[str] = [
-        ' '.join(slice) for slice in [
-            words[pos:pos + n] for pos in range(len(words) - n)
-        ]
+        " ".join(slice)
+        for slice in [words[pos : pos + n] for pos in range(len(words) - n)]
     ]
     count: dict[str, int] = {}
     for n_gram in n_grams:
@@ -89,8 +103,6 @@ def get_top_k_n_grams(text: str, k: int = 10, n: int = 4) -> list[tuple[str, int
         else:
             count.update({n_gram: 1})
     result: list[tuple[str, int]] = list(
-        dict(
-            reversed(sorted(count.items(), key=lambda item: item[1]))
-        ).items()
+        dict(reversed(sorted(count.items(), key=lambda item: item[1]))).items()
     )
     return result[:k]
