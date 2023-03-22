@@ -10,6 +10,6 @@ RUN python -m nltk.downloader all -d /program/ && find -type f -name '*.zip' -de
 
 COPY . /program/
 
-VOLUME ["/data"]
+VOLUME ["/program/data"]
 
 CMD ["python", "/program/main.py"]

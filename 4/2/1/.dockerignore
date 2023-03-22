@@ -1,5 +1,3 @@
-*
-
-!/requirements.txt
-!/main.py
-!/utilities/helpers.py
+env/
+__pycache__/
+data/
