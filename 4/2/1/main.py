@@ -30,7 +30,7 @@ def main() -> None:
     try:
         n, k = map(int, input("Enter n and k (or interrupt input to use n=4 and k=10): ").split())
         print(get_top_k_n_grams(text, k, n))
-    except KeyboardInterrupt:
+    except (KeyboardInterrupt, EOFError, ValueError):
         print(get_top_k_n_grams(text))
 
 
