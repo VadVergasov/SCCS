@@ -33,7 +33,7 @@ class User:
             file_stream = open(
                 os.path.join("data", self.username + ".json"), "r", encoding="utf8"
             )
-            self.elements = set(ujson.load(file_stream))
+            self.elements = self.elements.union(set(ujson.load(file_stream)))
         except FileNotFoundError:
             pass
 
