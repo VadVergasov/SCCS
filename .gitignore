@@ -18,6 +18,7 @@
 !/4/2/1/tests
 !/4/2/1/tests/test_helpers.py
 !/4/2/1/utilities
+!/4/2/1/utilities/constants.py
 !/4/2/1/utilities/helpers.py
 !/4/2/2
 !/4/2/2/main.py

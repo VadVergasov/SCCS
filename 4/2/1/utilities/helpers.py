@@ -3,26 +3,14 @@ Help function for working with text
 """
 import re
 from itertools import chain
-
-ABBREVIATIONS: list[str] = [
-    "Mr.",
-    "Mrs.",
-    "Ph.D.",
-    "Lt.",
-    "Rep.",
-    "Dr.",
-    "B.A.",
-    "a.m.",
-]
+from constants import WORD_REGEX, SENTENCE_REGEX, ABBREVIATIONS
 
 
 def split_to_sentences(text: str) -> list[str]:
     """
     Function splits text into sentences
     """
-    sentences: list[str] = re.findall(
-        r"(?:(?:\w+)(?:[^a-zA-Z0-9\.!?]+|[\.!?\.\.\.]))+", text
-    )
+    sentences: list[str] = re.findall(SENTENCE_REGEX, text)
     result: list[str] = sentences
     for sentence in sentences:
         for abbreviation in ABBREVIATIONS:
@@ -38,7 +26,7 @@ def split_to_words(sentence: str) -> list[str]:
     """
     Function splits sentence into words
     """
-    words: list[str] = re.findall(r"([\w’']+)", sentence)
+    words: list[str] = re.findall(WORD_REGEX, sentence)
     words = [word for word in words if not word.isdigit()]
 
     return words
