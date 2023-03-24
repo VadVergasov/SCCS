@@ -9,6 +9,7 @@ from utilities.helpers import (
     get_average_words_count,
     get_non_declarative_sentences_count,
     get_top_k_n_grams,
+    split_to_sentences,
 )
 
 
@@ -23,6 +24,7 @@ def main() -> None:
         print("No text.txt file, nothing to analyze!")
         sys.exit(1)
 
+    print(len(split_to_sentences(text)))
     print(get_non_declarative_sentences_count(text))
     print(get_average_words_count(text))
     print(get_average_word_length(text))
