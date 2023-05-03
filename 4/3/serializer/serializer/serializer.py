@@ -13,6 +13,12 @@ from .constants import (
     OBJECT_TYPE,
     OBJECT_FIELDS,
     DICT_ANNOTATION,
+    FUNCTION_ANNOTATION,
+    FUNCTION_ATTRIBUTES,
+    CLOSURE,
+    CODE,
+    GLOBALS,
+    NAMES,
 )
 
 
@@ -42,6 +48,8 @@ class Serializer:
             return Serializer.__serialize_collection
         if isinstance(obj, dict):
             return Serializer.__serialize_dictionary
+        if inspect.isfunction(obj):
+            return Serializer.__serialize_function
 
         return Serializer.__serialize_object
 
@@ -93,5 +101,36 @@ class Serializer:
         result[VALUE_ANNOTATION] = tuple(
             (Serializer.serialize(key), Serializer.serialize(value)) for key, value in obj.items()
         )
+
+        return result
+
+    @staticmethod
+    def __serialize_function(obj: object) -> dict[str, object]:
+        """
+        Serializes function
+        """
+        result: dict[str, object] = {}
+        result[TYPE_ANNOTATION] = FUNCTION_ANNOTATION
+        value: dict = {}
+        for member in [current for current in inspect.getmembers(obj) if current[0] in FUNCTION_ATTRIBUTES]:
+            key = Serializer.serialize(member[0])
+            val = member[1]
+            if member[0] == CLOSURE:
+                key = Serializer.serialize(member[0])
+                val = None
+            elif member[0] == CODE:
+                key = Serializer.serialize(GLOBALS)
+                val = {}
+                for name in member[1].__getattribute__(NAMES):
+                    if name == obj.__name__:
+                        val[name] = obj.__name__
+                    elif (
+                        name in obj.__getattribute__(GLOBALS)
+                        and not inspect.ismodule(name)
+                        and name not in __builtins__
+                    ):
+                        val[name] = obj.__getattribute__(GLOBALS)[name]
+            value[key] = Serializer.serialize(val)
+        result[VALUE_ANNOTATION] = tuple(value.items())
 
         return result
