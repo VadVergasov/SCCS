@@ -22,7 +22,8 @@ from .constants import (
     NAMES,
     CLASS_ANNOTATION,
     NOT_CLASS_ATTRIBUTES,
-    MODULE_ANNOTATION,NONE_TYPE
+    MODULE_ANNOTATION,
+    NONE_TYPE,
 )
 
 
@@ -218,11 +219,20 @@ class Serializer:
         """
         Returns function for type to deserealize
         """
-        if object_type == TYPE_ANNOTATION:
+        if object_type in [
+            str(bool.__name__),
+            str(str.__name__),
+            str(int.__name__),
+            str(float.__name__),
+            str(complex.__name__),
+            str(type(None).__name__),
+        ]:
             return Serializer.__deserialize_primitive
+        if object_type in [str(list.__name__), str(tuple.__name__), str(bytes.__name__)]:
+            return Serializer.__deserialize_collections
 
     @staticmethod
-    def __deserialize_primitive(object_type: object, obj: object) -> object:
+    def __deserialize_primitive(object_type: object, obj: object | None = None) -> object:
         """
         Deserializes primite
         """
@@ -232,3 +242,15 @@ class Serializer:
             return obj == str(True)
 
         return locate(object_type)(obj)
+
+    @staticmethod
+    def __deserialize_collections(object_type: object, obj: object) -> object:
+        """
+        Deserialized collections
+        """
+        if object_type == str(list.__name__):
+            return [Serializer.deserialize(current) for current in obj]
+        if object_type == str(tuple.__name__):
+            return tuple(Serializer.deserialize(current) for current in obj)
+        if object_type == str(bytes.__name__):
+            return bytes([Serializer.deserialize(current) for current in obj])
