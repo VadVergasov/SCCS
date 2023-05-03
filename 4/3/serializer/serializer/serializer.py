@@ -11,7 +11,6 @@ from .constants import (
     TYPE_ANNOTATION,
     VALUE_ANNOTATION,
     OBJECT_ANNOTATION,
-    OBJECT_TYPE,
     OBJECT_FIELDS,
     DICT_ANNOTATION,
     FUNCTION_ANNOTATION,
@@ -23,7 +22,6 @@ from .constants import (
     CLASS_ANNOTATION,
     NOT_CLASS_ATTRIBUTES,
     MODULE_ANNOTATION,
-    NONE_TYPE,
 )
 
 
@@ -92,7 +90,7 @@ class Serializer:
         result[TYPE_ANNOTATION] = OBJECT_ANNOTATION
         result[VALUE_ANNOTATION] = tuple(
             {
-                Serializer.serialize(OBJECT_TYPE): Serializer.serialize(type(obj)),
+                Serializer.serialize(OBJECT_ANNOTATION): Serializer.serialize(type(obj)),
                 Serializer.serialize(OBJECT_FIELDS): Serializer.serialize(obj.__dict__),
             }.items()
         )
@@ -230,6 +228,8 @@ class Serializer:
             return Serializer.__deserialize_primitive
         if object_type in [str(list.__name__), str(tuple.__name__), str(bytes.__name__)]:
             return Serializer.__deserialize_collections
+        if object_type == MODULE_ANNOTATION:
+            return Serializer.__deserialize_module
 
     @staticmethod
     def __deserialize_primitive(object_type: object, obj: object | None = None) -> object:
@@ -254,3 +254,10 @@ class Serializer:
             return bytes([Serializer.deserialize(current) for current in obj])
 
         return [Serializer.deserialize(current) for current in obj]
+
+    @staticmethod
+    def __deserialize_module(_, obj: object) -> object:
+        """
+        Deserializes module
+        """
+        return __import__(obj)
