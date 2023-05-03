@@ -54,6 +54,9 @@
 !/4/3/serializer/factory/parsers/yaml
 !/4/3/serializer/factory/parsers/yaml/__init__.py
 !/4/3/serializer/factory/parsers/yaml/parser.py
+!/4/3/serializer/serializer/
+!/4/3/serializer/serializer/__init__.py
+!/4/3/serializer/serializer/serializer.py
 
 !/.github
 !/.github/workflows
