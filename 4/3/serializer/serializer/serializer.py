@@ -19,6 +19,8 @@ from .constants import (
     CODE,
     GLOBALS,
     NAMES,
+    CLASS_ANNOTATION,
+    NOT_CLASS_ATTRIBUTES,
 )
 
 
@@ -50,6 +52,8 @@ class Serializer:
             return Serializer.__serialize_dictionary
         if inspect.isfunction(obj):
             return Serializer.__serialize_function
+        if inspect.isclass(obj):
+            return Serializer.__serialize_class
 
         return Serializer.__serialize_object
 
@@ -132,5 +136,19 @@ class Serializer:
                         val[name] = obj.__getattribute__(GLOBALS)[name]
             value[key] = Serializer.serialize(val)
         result[VALUE_ANNOTATION] = tuple(value.items())
+
+        return result
+
+    @staticmethod
+    def __serialize_class(obj: object) -> dict[str, object]:
+        """
+        Serializes class
+        """
+        result: dict[str, object] = {}
+        result[TYPE_ANNOTATION] = CLASS_ANNOTATION
+        result[VALUE_ANNOTATION] = tuple(
+            (Serializer.serialize(key), Serializer.serialize(value))
+            for key, value in [member for member in inspect.getmembers(obj) if member[0] not in NOT_CLASS_ATTRIBUTES]
+        )
 
         return result
