@@ -34,13 +34,13 @@ class Serializer:
         """
         Serialization function
         """
-        serializer: Callable[[object], dict[str, object]] = Serializer.__get_serializer(obj)
+        serializer: Callable[[object], dict[str, object] | None] = Serializer.__get_serializer(obj)
         result = tuple(serializer(obj).items())
 
         return result
 
     @staticmethod
-    def __get_serializer(obj: object) -> Callable[[object], dict[str, object]]:
+    def __get_serializer(obj: object) -> Callable[[object], dict[str, object] | None]:
         """
         Gets serializer for object
         """
@@ -54,6 +54,8 @@ class Serializer:
             return Serializer.__serialize_function
         if inspect.isclass(obj):
             return Serializer.__serialize_class
+        if inspect.iscode(obj):
+            return Serializer.__serialize_code
 
         return Serializer.__serialize_object
 
@@ -149,6 +151,22 @@ class Serializer:
         result[VALUE_ANNOTATION] = tuple(
             (Serializer.serialize(key), Serializer.serialize(value))
             for key, value in [member for member in inspect.getmembers(obj) if member[0] not in NOT_CLASS_ATTRIBUTES]
+        )
+
+        return result
+
+    @staticmethod
+    def __serialize_code(obj: object) -> dict[str, object] | None:
+        """
+        Serializes code
+        """
+        if re.search(TYPE, str(type(obj))) is None:
+            return None
+        result: dict[str, object] = {}
+        result[TYPE_ANNOTATION] = re.search(TYPE, str(type(obj))).group(1)
+        result[VALUE_ANNOTATION] = tuple(
+            (Serializer.serialize(key), Serializer.serialize(value))
+            for key, value in [member for member in inspect.getmembers(obj) if not callable(member[1])]
         )
 
         return result
