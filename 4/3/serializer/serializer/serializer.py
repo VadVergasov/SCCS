@@ -248,9 +248,9 @@ class Serializer:
         """
         Deserialized collections
         """
-        if object_type == str(list.__name__):
-            return [Serializer.deserialize(current) for current in obj]
         if object_type == str(tuple.__name__):
             return tuple(Serializer.deserialize(current) for current in obj)
         if object_type == str(bytes.__name__):
             return bytes([Serializer.deserialize(current) for current in obj])
+
+        return [Serializer.deserialize(current) for current in obj]
