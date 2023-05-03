@@ -3,6 +3,7 @@ Implementing serializer class
 """
 import inspect
 from typing import Callable
+from pydoc import locate
 
 import re
 from .constants import (
@@ -21,7 +22,7 @@ from .constants import (
     NAMES,
     CLASS_ANNOTATION,
     NOT_CLASS_ATTRIBUTES,
-    MODULE_ANNOTATION,
+    MODULE_ANNOTATION,NONE_TYPE
 )
 
 
@@ -200,3 +201,34 @@ class Serializer:
         )
 
         return result
+
+    @staticmethod
+    def deserialize(obj: dict[str, object]) -> object:
+        """
+        Deserializes object
+        """
+        deserializer: Callable[[object, object], object] = Serializer.__create_deserializer(obj[TYPE_ANNOTATION])
+        if deserializer is None:
+            return None
+
+        return deserializer(obj[TYPE_ANNOTATION], obj[VALUE_ANNOTATION])
+
+    @staticmethod
+    def __create_deserializer(object_type) -> Callable[[object, object], object]:
+        """
+        Returns function for type to deserealize
+        """
+        if object_type == TYPE_ANNOTATION:
+            return Serializer.__deserialize_primitive
+
+    @staticmethod
+    def __deserialize_primitive(object_type: object, obj: object) -> object:
+        """
+        Deserializes primite
+        """
+        if object_type == str(type(None).__name__):
+            return None
+        if object_type == str(type(True).__name__) and isinstance(obj, str):
+            return obj == str(True)
+
+        return locate(object_type)(obj)
