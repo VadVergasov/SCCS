@@ -30,6 +30,8 @@ class Serializer:
         """
         if isinstance(obj, (float, int, complex, bool, str, type(None))):
             return Serializer.__serialize_primitive
+        if isinstance(obj, (list, tuple, bytes)):
+            return Serializer.__serialize_collection
 
         return Serializer.__serialize_object
 
@@ -57,5 +59,16 @@ class Serializer:
                 Serializer.serialize(OBJECT_FIELDS): Serializer.serialize(obj.__dict__),
             }.items()
         )
+
+        return result
+
+    @staticmethod
+    def __serialize_collection(obj: object) -> dict[str, object]:
+        """
+        Serializes collections
+        """
+        result: dict[str, object] = {}
+        result[TYPE_ANNOTATION] = re.search(TYPE, str(type(obj))).group(1)
+        result[VALUE_ANNOTATION] = tuple(Serializer.serialize(current) for current in obj)
 
         return result
