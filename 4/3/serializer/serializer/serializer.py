@@ -59,6 +59,14 @@ class Serializer:
             return Serializer.__serialize_code
         if inspect.ismodule(obj):
             return Serializer.__serialize_module
+        if (
+            inspect.ismemberdescriptor(obj)
+            or inspect.isbuiltin(obj)
+            or inspect.isgetsetdescriptor(obj)
+            or inspect.ismethoddescriptor(obj)
+            or isinstance(obj, type(type.__dict__))
+        ):
+            return Serializer.__serialize_instance
 
         return Serializer.__serialize_object
 
@@ -165,14 +173,8 @@ class Serializer:
         """
         if re.search(TYPE, str(type(obj))) is None:
             return None
-        result: dict[str, object] = {}
-        result[TYPE_ANNOTATION] = re.search(TYPE, str(type(obj))).group(1)
-        result[VALUE_ANNOTATION] = tuple(
-            (Serializer.serialize(key), Serializer.serialize(value))
-            for key, value in [member for member in inspect.getmembers(obj) if not callable(member[1])]
-        )
 
-        return result
+        return Serializer.__serialize_instance(obj)
 
     @staticmethod
     def __serialize_module(obj: object) -> dict[str, object]:
@@ -182,5 +184,19 @@ class Serializer:
         result: dict[str, object] = {}
         result[TYPE_ANNOTATION] = MODULE_ANNOTATION
         result[VALUE_ANNOTATION] = re.search(TYPE, str(obj)).group(1)
+
+        return result
+
+    @staticmethod
+    def __serialize_instance(obj: object) -> dict[str, object]:
+        """
+        Serializes instance
+        """
+        result: dict[str, object] = {}
+        result[TYPE_ANNOTATION] = re.search(TYPE, str(type(obj))).group(1)
+        result[VALUE_ANNOTATION] = tuple(
+            (Serializer.serialize(key), Serializer.serialize(value))
+            for key, value in [member for member in inspect.getmembers(obj) if not callable(member[1])]
+        )
 
         return result
