@@ -5,7 +5,15 @@ import inspect
 from typing import Callable
 
 import re
-from .constants import TYPE, TYPE_ANNOTATION, VALUE_ANNOTATION, OBJECT_ANNOTATION, OBJECT_TYPE, OBJECT_FIELDS
+from .constants import (
+    TYPE,
+    TYPE_ANNOTATION,
+    VALUE_ANNOTATION,
+    OBJECT_ANNOTATION,
+    OBJECT_TYPE,
+    OBJECT_FIELDS,
+    DICT_ANNOTATION,
+)
 
 
 class Serializer:
@@ -32,6 +40,8 @@ class Serializer:
             return Serializer.__serialize_primitive
         if isinstance(obj, (list, tuple, bytes)):
             return Serializer.__serialize_collection
+        if isinstance(obj, dict):
+            return Serializer.__serialize_dictionary
 
         return Serializer.__serialize_object
 
@@ -70,5 +80,18 @@ class Serializer:
         result: dict[str, object] = {}
         result[TYPE_ANNOTATION] = re.search(TYPE, str(type(obj))).group(1)
         result[VALUE_ANNOTATION] = tuple(Serializer.serialize(current) for current in obj)
+
+        return result
+
+    @staticmethod
+    def __serialize_dictionary(obj: object) -> dict[str, object]:
+        """
+        Serializes dictionary
+        """
+        result: dict[str, object] = {}
+        result[TYPE_ANNOTATION] = DICT_ANNOTATION
+        result[VALUE_ANNOTATION] = tuple(
+            (Serializer.serialize(key), Serializer.serialize(value)) for key, value in obj.items()
+        )
 
         return result
