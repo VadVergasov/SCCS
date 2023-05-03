@@ -21,6 +21,7 @@ from .constants import (
     NAMES,
     CLASS_ANNOTATION,
     NOT_CLASS_ATTRIBUTES,
+    MODULE_ANNOTATION,
 )
 
 
@@ -56,6 +57,8 @@ class Serializer:
             return Serializer.__serialize_class
         if inspect.iscode(obj):
             return Serializer.__serialize_code
+        if inspect.ismodule(obj):
+            return Serializer.__serialize_module
 
         return Serializer.__serialize_object
 
@@ -168,5 +171,16 @@ class Serializer:
             (Serializer.serialize(key), Serializer.serialize(value))
             for key, value in [member for member in inspect.getmembers(obj) if not callable(member[1])]
         )
+
+        return result
+
+    @staticmethod
+    def __serialize_module(obj: object) -> dict[str, object]:
+        """
+        Serializes module
+        """
+        result: dict[str, object] = {}
+        result[TYPE_ANNOTATION] = MODULE_ANNOTATION
+        result[VALUE_ANNOTATION] = re.search(TYPE, str(obj)).group(1)
 
         return result
