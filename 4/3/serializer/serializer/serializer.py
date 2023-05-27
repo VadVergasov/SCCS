@@ -230,6 +230,8 @@ class Serializer:
             return Serializer.__deserialize_collections
         if object_type == MODULE_ANNOTATION:
             return Serializer.__deserialize_module
+        if object_type == DICT_ANNOTATION:
+            return Serializer.__deserialize_dictionary
 
     @staticmethod
     def __deserialize_primitive(object_type: object, obj: object | None = None) -> object:
@@ -261,3 +263,7 @@ class Serializer:
         Deserializes module
         """
         return __import__(obj)
+
+    @staticmethod
+    def __deserialize_dictionary(object_type: object, obj: object) -> object:
+        return dict([(Serializer.deserialize(current[0]), Serializer.deserialize(current[1])) for current in obj])
