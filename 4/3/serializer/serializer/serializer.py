@@ -274,12 +274,13 @@ class Serializer:
         return {Serializer.deserialize(current[0]): Serializer.deserialize(current[1]) for current in obj}
 
     @staticmethod
-    def __deserialize_object() -> object:
+    def __deserialize_object(object_type: object, obj: object) -> object:
         """
         Deserialize object
         """
-        result = Serializer.__deserialize_dictionary(DICT_ANNOTATION, obj)[OBJECT_ANNOTATION]()
-        for key, value in Serializer.__deserialize_dictionary(DICT_ANNOTATION, obj)[OBJECT_FIELDS].items():
-            result.key = value
+        dct = Serializer.__deserialize_dictionary(DICT_ANNOTATION, obj)
+        result = dct[OBJECT_ANNOTATION]()
+        for key, value in dct[OBJECT_FIELDS].items():
+            setattr(result, key, value)
 
         return result
