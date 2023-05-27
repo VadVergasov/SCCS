@@ -22,6 +22,7 @@ from .constants import (
     CLASS_ANNOTATION,
     NOT_CLASS_ATTRIBUTES,
     MODULE_ANNOTATION,
+    NAME_NAME,
 )
 
 
@@ -161,7 +162,10 @@ class Serializer:
         result[TYPE_ANNOTATION] = CLASS_ANNOTATION
         result[VALUE_ANNOTATION] = tuple(
             (Serializer.serialize(key), Serializer.serialize(value))
-            for key, value in [member for member in inspect.getmembers(obj) if member[0] not in NOT_CLASS_ATTRIBUTES]
+            for key, value in [
+                *[member for member in inspect.getmembers(obj) if member[0] not in NOT_CLASS_ATTRIBUTES],
+                (Serializer.serialize(NAME_NAME), Serializer.serialize(obj.__name__)),
+            ]
         )
 
         return result
@@ -234,6 +238,8 @@ class Serializer:
             return Serializer.__deserialize_dictionary
         if object_type == OBJECT_ANNOTATION:
             return Serializer.__deserialize_object
+        if object_type == CLASS_ANNOTATION:
+            return Serializer.__deserialize_class
 
     @staticmethod
     def __deserialize_primitive(object_type: object, obj: object | None = None) -> object:
@@ -284,3 +290,14 @@ class Serializer:
             setattr(result, key, value)
 
         return result
+
+    @staticmethod
+    def __deserialize_class(object_type: object, obj: object) -> object:
+        """
+        Deserialize class
+        """
+        dct = Serializer.__deserialize_dictionary(DICT_ANNOTATION, obj)
+        name = dct[NAME_NAME]
+        del dct[NAME_NAME]
+
+        return type(name, (object,), dct)
