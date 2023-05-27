@@ -266,4 +266,7 @@ class Serializer:
 
     @staticmethod
     def __deserialize_dictionary(object_type: object, obj: object) -> object:
+        """
+        Deserialize dictionary
+        """
         return {Serializer.deserialize(current[0]): Serializer.deserialize(current[1]) for current in obj}
