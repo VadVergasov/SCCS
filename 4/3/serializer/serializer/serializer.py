@@ -3,6 +3,7 @@ Implementing serializer class
 """
 import inspect
 from typing import Callable
+from types import CodeType, FunctionType
 from pydoc import locate
 
 from .constants import (
@@ -21,6 +22,9 @@ from .constants import (
     NOT_CLASS_ATTRIBUTES,
     MODULE_ANNOTATION,
     NAME_NAME,
+    BUILTINS,
+    DOC,
+    CODE_OBJECT_ARGS,
 )
 
 
@@ -238,6 +242,8 @@ class Serializer:
             return Serializer.__deserialize_object
         if object_type == CLASS_ANNOTATION:
             return Serializer.__deserialize_class
+        if object_type == FUNCTION_ANNOTATION:
+            return Serializer.__deserialize_function
 
     @staticmethod
     def __deserialize_primitive(object_type: object, obj: object | None = None) -> object:
@@ -299,3 +305,37 @@ class Serializer:
         del dct[NAME_NAME]
 
         return type(name, (object,), dct)
+
+    @staticmethod
+    def __deserialize_function(object_type: object, obj: object) -> object:
+        """
+        Deserialize function
+        """
+        func = [0] * 4
+        code = [0] * 16
+        glob = {BUILTINS: __builtins__}
+
+        for current in obj:
+            key = Serializer.deserialize(current[0])
+            if key == GLOBALS:
+                for key, value in Serializer.deserialize(current[1]):
+                    glob[key] = value
+            elif key == GLOBALS:
+                for arg in current[1][1][1]:
+                    code_arg_key = Serializer.deserialize(arg[0])
+                    if code_arg_key != DOC:
+                        code_arg_value = Serializer.deserialize(arg[1])
+                        index = CODE_OBJECT_ARGS.index(code_arg_key)
+                        code[index] = code_arg_value
+                code = CodeType(*code)
+            else:
+                index = FUNCTION_ATTRIBUTES.index(key)
+                func[index] = Serializer.deserialize(current[1])
+        func[0] = code
+        func.insert(1, glob)
+
+        result = FunctionType(*func)
+        if result.__name__ in result.__getattribute__(GLOBALS):
+            result.__getattribute__(GLOBALS)[result.__name__] = result
+
+        return result
