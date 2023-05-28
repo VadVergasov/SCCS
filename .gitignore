@@ -45,15 +45,9 @@
 !/4/3/serializer/factory/parsers/json
 !/4/3/serializer/factory/parsers/json/__init__.py
 !/4/3/serializer/factory/parsers/json/parser.py
-!/4/3/serializer/factory/parsers/toml
-!/4/3/serializer/factory/parsers/toml/__init__.py
-!/4/3/serializer/factory/parsers/toml/parser.py
 !/4/3/serializer/factory/parsers/xml
 !/4/3/serializer/factory/parsers/xml/__init__.py
 !/4/3/serializer/factory/parsers/xml/parser.py
-!/4/3/serializer/factory/parsers/yaml
-!/4/3/serializer/factory/parsers/yaml/__init__.py
-!/4/3/serializer/factory/parsers/yaml/parser.py
 !/4/3/serializer/serializer/
 !/4/3/serializer/serializer/__init__.py
 !/4/3/serializer/serializer/constants.py
