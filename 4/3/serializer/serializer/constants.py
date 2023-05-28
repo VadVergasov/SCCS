@@ -1,8 +1,6 @@
 """
 Constants for Serializer class
 """
-TYPE = r"\'(\w+)\'"
-
 OBJECT_FIELDS = "__fields__"
 
 CLOSURE = "__closure__"

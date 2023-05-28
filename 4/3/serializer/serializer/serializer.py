@@ -5,9 +5,7 @@ import inspect
 from typing import Callable
 from pydoc import locate
 
-import re
 from .constants import (
-    TYPE,
     TYPE_ANNOTATION,
     VALUE_ANNOTATION,
     OBJECT_ANNOTATION,
@@ -77,7 +75,7 @@ class Serializer:
         Serializes primitive type
         """
         serialized_primitive: dict[str, object] = {}
-        serialized_primitive[TYPE_ANNOTATION] = re.search(TYPE, str(type(obj))).group(1)
+        serialized_primitive[TYPE_ANNOTATION] = type(obj).__name__
         serialized_primitive[VALUE_ANNOTATION] = obj
 
         return serialized_primitive
@@ -104,7 +102,7 @@ class Serializer:
         Serializes collections
         """
         result: dict[str, object] = {}
-        result[TYPE_ANNOTATION] = re.search(TYPE, str(type(obj))).group(1)
+        result[TYPE_ANNOTATION] = type(obj).__name__
         result[VALUE_ANNOTATION] = tuple(Serializer.serialize(current) for current in obj)
 
         return result
@@ -175,7 +173,7 @@ class Serializer:
         """
         Serializes code
         """
-        if re.search(TYPE, str(type(obj))) is None:
+        if type(obj).__name__ is None:
             return None
 
         return Serializer.__serialize_instance(obj)
@@ -187,7 +185,7 @@ class Serializer:
         """
         result: dict[str, object] = {}
         result[TYPE_ANNOTATION] = MODULE_ANNOTATION
-        result[VALUE_ANNOTATION] = re.search(TYPE, str(obj)).group(1)
+        result[VALUE_ANNOTATION] = obj.__name__
 
         return result
 
@@ -197,7 +195,7 @@ class Serializer:
         Serializes instance
         """
         result: dict[str, object] = {}
-        result[TYPE_ANNOTATION] = re.search(TYPE, str(type(obj))).group(1)
+        result[TYPE_ANNOTATION] = type(obj).__name__
         result[VALUE_ANNOTATION] = tuple(
             (Serializer.serialize(key), Serializer.serialize(value))
             for key, value in [member for member in inspect.getmembers(obj) if not callable(member[1])]
