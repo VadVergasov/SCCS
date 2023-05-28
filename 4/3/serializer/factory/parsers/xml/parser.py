@@ -11,28 +11,30 @@ class ParserXml(Parser):
     XML parser
     """
 
-    def dump(self, obj: object, fp: io.IOBase) -> None:
+    @staticmethod
+    def dump(obj: object, fp: io.IOBase) -> None:
         """
         Prints object to fp
         """
-        fp.write(self.dumps(obj))
+        fp.write(ParserXml.dumps(obj))
 
-    def dumps(self, obj: object) -> str:
+    @staticmethod
+    def dumps(obj: object) -> str:
         """
         Returns string with serialized obj
         """
         # TODO
-        pass
 
-    def load(self, fp: io.IOBase) -> object:
+    @staticmethod
+    def load(fp: io.IOBase) -> object:
         """
         Returns object serialized from obj
         """
-        return self.loads(fp.read())
+        return ParserXml.loads(fp.read())
 
-    def loads(self, string: str) -> object:
+    @staticmethod
+    def loads(string: str) -> object:
         """
         Returns object serialized from obj
         """
         # TODO
-        pass

@@ -15,29 +15,29 @@ class Parser(ABC):
         pass
 
     @abstractmethod
-    def dump(self, obj: object, fp: io.IOBase) -> None:
+    @staticmethod
+    def dump(obj: object, fp: io.IOBase) -> None:
         """
         Prints object to fp
         """
-        pass
 
     @abstractmethod
-    def dumps(self, obj: object) -> str:
+    @staticmethod
+    def dumps(obj: object) -> str:
         """
         Returns string with serialized obj
         """
-        pass
 
     @abstractmethod
-    def load(self, fp: io.IOBase) -> object:
+    @staticmethod
+    def load(fp: io.IOBase) -> object:
         """
         Returns object serialized from obj
         """
-        pass
 
     @abstractmethod
-    def loads(self, string: str) -> object:
+    @staticmethod
+    def loads(string: str) -> object:
         """
         Returns object serialized from obj
         """
-        pass

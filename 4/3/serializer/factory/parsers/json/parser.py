@@ -17,20 +17,23 @@ class ParserJson(Parser):
         """
         fp.write(self.dumps(obj))
 
-    def dumps(self, obj: object) -> str:
+    @staticmethod
+    def dumps(obj: object) -> str:
         """
         Returns string with serialized obj
         """
         # TODO
         pass
 
-    def load(self, fp: io.IOBase) -> object:
+    @staticmethod
+    def load(fp: io.IOBase) -> object:
         """
         Returns object serialized from obj
         """
         return self.loads(fp.read())
 
-    def loads(self, string: str) -> object:
+    @staticmethod
+    def loads(string: str) -> object:
         """
         Returns object serialized from obj
         """
