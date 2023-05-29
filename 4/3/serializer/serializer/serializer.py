@@ -167,7 +167,7 @@ class Serializer:
             (Serializer.serialize(key), Serializer.serialize(value))
             for key, value in [
                 *[member for member in inspect.getmembers(obj) if member[0] not in NOT_CLASS_ATTRIBUTES],
-                (Serializer.serialize(NAME_NAME), Serializer.serialize(obj.__name__)),
+                (NAME_NAME, obj.__name__),
             ]
         )
 
