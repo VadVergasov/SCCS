@@ -135,24 +135,26 @@ class Serializer:
         result[VALUE_ANNOTATION] = {}
         for member in [current for current in inspect.getmembers(obj) if current[0] in FUNCTION_ATTRIBUTES]:
             key = Serializer.serialize(member[0])
-            val = member[1]
-            if member[0] == CLOSURE:
-                key = Serializer.serialize(member[0])
-                val = None
-            elif member[0] == CODE:
+            if member[0] != CLOSURE:
+                value = Serializer.serialize(member[1])
+            else:
+                value = Serializer.serialize(None)
+
+            if member[0] == CODE:
                 key = Serializer.serialize(GLOBALS)
-                val = {}
-                for name in member[1].__getattribute__(NAMES):
+                result[VALUE_ANNOTATION][key] = {}
+                names = member[1].__getattribute__(NAMES)
+                glob = obj.__getattribute__(GLOBALS)
+                glob_dict = {}
+                for name in names:
                     if name == obj.__name__:
-                        val[name] = obj.__name__
-                    elif (
-                        name in obj.__getattribute__(GLOBALS)
-                        and not inspect.ismodule(name)
-                        and name not in __builtins__
-                    ):
-                        val[name] = obj.__getattribute__(GLOBALS)[name]
-            value[key] = Serializer.serialize(val)
-        result[VALUE_ANNOTATION] = tuple(value.items())
+                        glob_dict[name] = obj.__name__
+                    elif name in glob and not inspect.ismodule(name) and name not in __builtins__:
+                        glob_dict[name] = glob[name]
+                result[VALUE_ANNOTATION][key] = Serializer.serialize(glob_dict)
+            else:
+                result[VALUE_ANNOTATION][key] = value
+        result[VALUE_ANNOTATION] = tuple(result[VALUE_ANNOTATION].items())
 
         return result
 
