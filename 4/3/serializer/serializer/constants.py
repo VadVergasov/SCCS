@@ -3,13 +3,23 @@ Constants for Serializer class
 """
 OBJECT_FIELDS = "__fields__"
 
+CLASS_ANNOTATION = "class"
+DICT_ANNOTATION = "dict"
+FUNCTION_ANNOTATION = "function"
+OBJECT_ANNOTATION = "__object_name__"
+TYPE_ANNOTATION = "type"
+VALUE_ANNOTATION = "value"
+MODULE_ANNOTATION = "__module__name__"
+NAME_NAME = "__name__"
 CLOSURE = "__closure__"
 CODE = "__code__"
 GLOBALS = "__globals__"
 BUILTINS = "__builtins__"
 DOC = "__doc__"
 NAMES = "co_names"
-FUNCTION_ATTRIBUTES = ["__code__", "__name__", "__defaults__", "__closure__"]
+LINETABLE = "co_linetable"
+
+FUNCTION_ATTRIBUTES = [CODE, NAME_NAME, "__defaults__", CLOSURE]
 NOT_CLASS_ATTRIBUTES = ["__class__", "__getattribute__", "__new__", "__setattr__"]
 CODE_OBJECT_ARGS = [
     "co_argcount",
@@ -29,12 +39,3 @@ CODE_OBJECT_ARGS = [
     "co_freevars",
     "co_cellvars",
 ]
-
-CLASS_ANNOTATION = "class"
-DICT_ANNOTATION = "dict"
-FUNCTION_ANNOTATION = "function"
-OBJECT_ANNOTATION = "__object_name__"
-TYPE_ANNOTATION = "type"
-VALUE_ANNOTATION = "value"
-MODULE_ANNOTATION = "__module__name__"
-NAME_NAME = "__name__"
