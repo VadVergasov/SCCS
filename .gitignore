@@ -52,6 +52,9 @@
 !/4/3/serializer/serializer/__init__.py
 !/4/3/serializer/serializer/constants.py
 !/4/3/serializer/serializer/serializer.py
+!/4/3/tests
+!/4/3/tests/constants.py
+!/4/3/tests/test_serialization.py
 
 !/.github
 !/.github/workflows
