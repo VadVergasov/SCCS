@@ -139,7 +139,7 @@ class Serializer:
                 value = Serializer.serialize(member[1])
             else:
                 value = Serializer.serialize(None)
-
+            result[VALUE_ANNOTATION][key] = value
             if member[0] == CODE:
                 key = Serializer.serialize(GLOBALS)
                 result[VALUE_ANNOTATION][key] = {}
@@ -152,8 +152,6 @@ class Serializer:
                     elif name in glob and not inspect.ismodule(name) and name not in __builtins__:
                         glob_dict[name] = glob[name]
                 result[VALUE_ANNOTATION][key] = Serializer.serialize(glob_dict)
-            else:
-                result[VALUE_ANNOTATION][key] = value
         result[VALUE_ANNOTATION] = tuple(result[VALUE_ANNOTATION].items())
 
         return result
