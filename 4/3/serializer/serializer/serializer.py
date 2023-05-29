@@ -212,6 +212,7 @@ class Serializer:
         """
         Deserializes object
         """
+        obj = dict(obj)
         deserializer: Callable[[object, object], object] = Serializer.__create_deserializer(obj[TYPE_ANNOTATION])
         if deserializer is None:
             return None
