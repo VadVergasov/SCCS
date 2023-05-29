@@ -274,21 +274,21 @@ class Serializer:
         return [Serializer.deserialize(current) for current in obj]
 
     @staticmethod
-    def __deserialize_module(_, obj: object) -> object:
+    def __deserialize_module(_: object, obj: object) -> object:
         """
         Deserializes module
         """
         return __import__(obj)
 
     @staticmethod
-    def __deserialize_dictionary(object_type: object, obj: object) -> object:
+    def __deserialize_dictionary(_: object, obj: object) -> object:
         """
         Deserialize dictionary
         """
         return {Serializer.deserialize(current[0]): Serializer.deserialize(current[1]) for current in obj}
 
     @staticmethod
-    def __deserialize_object(object_type: object, obj: object) -> object:
+    def __deserialize_object(_: object, obj: object) -> object:
         """
         Deserialize object
         """
@@ -300,7 +300,7 @@ class Serializer:
         return result
 
     @staticmethod
-    def __deserialize_class(object_type: object, obj: object) -> object:
+    def __deserialize_class(_: object, obj: object) -> object:
         """
         Deserialize class
         """
@@ -311,7 +311,7 @@ class Serializer:
         return type(name, (object,), dct)
 
     @staticmethod
-    def __deserialize_function(object_type: object, obj: object) -> object:
+    def __deserialize_function(_: object, obj: object) -> object:
         """
         Deserialize function
         """
