@@ -25,6 +25,7 @@ from .constants import (
     BUILTINS,
     DOC,
     CODE_OBJECT_ARGS,
+    LINETABLE,
 )
 
 
@@ -131,7 +132,7 @@ class Serializer:
         """
         result: dict[str, object] = {}
         result[TYPE_ANNOTATION] = FUNCTION_ANNOTATION
-        value: dict = {}
+        result[VALUE_ANNOTATION] = {}
         for member in [current for current in inspect.getmembers(obj) if current[0] in FUNCTION_ATTRIBUTES]:
             key = Serializer.serialize(member[0])
             val = member[1]
@@ -312,19 +313,19 @@ class Serializer:
         """
         Deserialize function
         """
-        func = [0] * 4
-        code = [0] * 16
+        func = [0] * len(FUNCTION_ATTRIBUTES)
+        code = [0] * len(CODE_OBJECT_ARGS)
         glob = {BUILTINS: __builtins__}
 
         for current in obj:
             key = Serializer.deserialize(current[0])
             if key == GLOBALS:
-                for key, value in Serializer.deserialize(current[1]):
-                    glob[key] = value
-            elif key == GLOBALS:
+                for lkey, value in Serializer.deserialize(current[1]).items():
+                    glob[lkey] = value
+            elif key == CODE:
                 for arg in current[1][1][1]:
                     code_arg_key = Serializer.deserialize(arg[0])
-                    if code_arg_key != DOC:
+                    if not code_arg_key in (DOC, LINETABLE):
                         code_arg_value = Serializer.deserialize(arg[1])
                         index = CODE_OBJECT_ARGS.index(code_arg_key)
                         code[index] = code_arg_value
