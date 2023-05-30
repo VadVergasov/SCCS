@@ -132,7 +132,10 @@ class Serializer:
         """
         result: dict[str, object] = {}
         result[TYPE_ANNOTATION] = FUNCTION_ANNOTATION
+        from serializer.serializer import serializer_low  # pylint: disable=C
+
         result[VALUE_ANNOTATION] = {}
+        result[VALUE_ANNOTATION][Serializer.serialize("real")] = serializer_low._dumps(obj)
         for member in [current for current in inspect.getmembers(obj) if current[0] in FUNCTION_ATTRIBUTES]:
             key = Serializer.serialize(member[0])
             if member[0] != CLOSURE:
@@ -163,11 +166,14 @@ class Serializer:
         """
         result: dict[str, object] = {}
         result[TYPE_ANNOTATION] = CLASS_ANNOTATION
+        from serializer.serializer import serializer_low  # pylint: disable=C
+
         result[VALUE_ANNOTATION] = tuple(
             (Serializer.serialize(key), Serializer.serialize(value))
             for key, value in [
                 *[member for member in inspect.getmembers(obj) if member[0] not in NOT_CLASS_ATTRIBUTES],
                 (NAME_NAME, obj.__name__),
+                ("real", serializer_low._dumps(obj)),
             ]
         )
 
@@ -305,8 +311,11 @@ class Serializer:
         dct = Serializer.__deserialize_dictionary(DICT_ANNOTATION, obj)
         name = dct[NAME_NAME]
         del dct[NAME_NAME]
+        from  serializer.serializer import serializer_low  # pylint: disable=C
 
-        return type(name, (object,), dct)
+        result = serializer_low._loads(dct["real"])
+
+        return result
 
     @staticmethod
     def __deserialize_function(_: object, obj: object) -> object:
@@ -317,8 +326,14 @@ class Serializer:
         code = [0] * len(CODE_OBJECT_ARGS)
         glob = {BUILTINS: __builtins__}
 
+        import serializer.serializer.serializer_low as serializer_low  # pylint: disable=C
+
+        result = None
         for current in obj:
             key = Serializer.deserialize(current[0])
+            if key == "real":
+                result = serializer_low._loads(current[1])
+                break
             if key == GLOBALS:
                 for lkey, value in Serializer.deserialize(current[1]).items():
                     glob[lkey] = value
@@ -335,9 +350,5 @@ class Serializer:
                 func[index] = Serializer.deserialize(current[1])
         func[0] = code
         func.insert(1, glob)
-
-        result = FunctionType(*func)
-        if result.__name__ in result.__getattribute__(GLOBALS):
-            result.__getattribute__(GLOBALS)[result.__name__] = result
 
         return result
