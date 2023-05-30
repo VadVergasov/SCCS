@@ -11,11 +11,11 @@ setup(
     license="GNU GPLv3",
     classifiers=[
         "Intended Audience :: Developers",
-        "License :: OSI Approved :: GNU GPLv3",
+        "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Programming Language :: Python",
         "Operating System :: OS Independent",
     ],
     packages=find_packages(),
     include_package_data=True,
-    install_requires=[],
+    install_requires=["regex"],
 )
