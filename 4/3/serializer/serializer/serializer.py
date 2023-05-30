@@ -1,354 +1,147 @@
-"""
-Implementing serializer class
-"""
 import inspect
-from typing import Callable
-from types import CodeType, FunctionType
-from pydoc import locate
-
-from .constants import (
-    TYPE_ANNOTATION,
-    VALUE_ANNOTATION,
-    OBJECT_ANNOTATION,
-    OBJECT_FIELDS,
-    DICT_ANNOTATION,
-    FUNCTION_ANNOTATION,
-    FUNCTION_ATTRIBUTES,
-    CLOSURE,
-    CODE,
-    GLOBALS,
-    NAMES,
-    CLASS_ANNOTATION,
-    NOT_CLASS_ATTRIBUTES,
-    MODULE_ANNOTATION,
-    NAME_NAME,
-    BUILTINS,
-    DOC,
-    CODE_OBJECT_ARGS,
-    LINETABLE,
+from typing import Any
+from types import FunctionType, ModuleType, CellType
+from serializer.constants import (
+    PRIMITIVES,
+    COLLECTIONS,
+    CODE_ATTRIBUTES,
+    TYPE,
+    VALUE,
+    ITERATOR_TYPE,
+    IGNORED_CLASS_ATTRIBUTES,
+    IGNORED_TYPES,
+    IS_ITERABLE,
 )
 
 
 class Serializer:
-    """
-    Serializer class
-    """
-
     @staticmethod
-    def serialize(obj: object):
+    def serialize(obj: Any) -> dict:
         """
-        Serialization function
+        Method that converts object to the dictionary that represents the object.
         """
-        serializer: Callable[[object], dict[str, object] | None] = Serializer.__get_serializer(obj)
-        result = tuple(serializer(obj).items())
 
-        return result
+        if isinstance(obj, PRIMITIVES):
+            return {TYPE: type(obj).__name__, VALUE: str(obj) if isinstance(obj, complex) else obj}
 
-    @staticmethod
-    def __get_serializer(obj: object) -> Callable[[object], dict[str, object] | None]:
-        """
-        Gets serializer for object
-        """
-        if isinstance(obj, (float, int, complex, bool, str, type(None))):
-            return Serializer.__serialize_primitive
-        if isinstance(obj, (list, tuple, bytes)):
-            return Serializer.__serialize_collection
-        if isinstance(obj, dict):
-            return Serializer.__serialize_dictionary
+        if isinstance(obj, COLLECTIONS):
+            if isinstance(obj, dict):
+                return {
+                    TYPE: type(obj).__name__,
+                    VALUE: [[Serializer.serialize(key), Serializer.serialize(value)] for key, value in obj.items()],
+                }
+            else:
+                return {TYPE: type(obj).__name__, VALUE: [Serializer.serialize(item) for item in obj]}
+
         if inspect.isfunction(obj):
-            return Serializer.__serialize_function
-        if inspect.isclass(obj):
-            return Serializer.__serialize_class
+            return {TYPE: type(obj).__name__, VALUE: Serializer._serialize_function(obj)}
+
         if inspect.iscode(obj):
-            return Serializer.__serialize_code
-        if inspect.ismodule(obj):
-            return Serializer.__serialize_module
-        if (
-            inspect.ismemberdescriptor(obj)
-            or inspect.isbuiltin(obj)
-            or inspect.isgetsetdescriptor(obj)
-            or inspect.ismethoddescriptor(obj)
-            or isinstance(obj, type(type.__dict__))
-        ):
-            return Serializer.__serialize_instance
+            return {
+                TYPE: type(obj).__name__,
+                VALUE: {
+                    key: Serializer.serialize(value) for key, value in inspect.getmembers(obj) if key in CODE_ATTRIBUTES
+                },
+            }
 
-        return Serializer.__serialize_object
+        if isinstance(obj, CellType):
+            return {TYPE: type(obj).__name__, VALUE: Serializer.serialize(obj.cell_contents)}
 
-    @staticmethod
-    def __serialize_primitive(obj: object) -> dict[str, object]:
-        """
-        Serializes primitive type
-        """
-        serialized_primitive: dict[str, object] = {}
-        serialized_primitive[TYPE_ANNOTATION] = type(obj).__name__
-        serialized_primitive[VALUE_ANNOTATION] = obj
+        if inspect.isclass(obj):
+            return {TYPE: "class", VALUE: Serializer._serialize_class(obj)}
 
-        return serialized_primitive
+        if isinstance(obj, property):
+            return {
+                TYPE: type(obj).__name__,
+                VALUE: {
+                    "fget": Serializer.serialize(obj.fget),
+                    "fset": Serializer.serialize(obj.fset),
+                    "fdel": Serializer.serialize(obj.fdel),
+                },
+            }
 
-    @staticmethod
-    def __serialize_object(obj: object) -> dict[str, object]:
-        """
-        Serializes objects
-        """
-        result: dict[str, object] = {}
-        result[TYPE_ANNOTATION] = OBJECT_ANNOTATION
-        result[VALUE_ANNOTATION] = tuple(
-            {
-                Serializer.serialize(OBJECT_ANNOTATION): Serializer.serialize(type(obj)),
-                Serializer.serialize(OBJECT_FIELDS): Serializer.serialize(obj.__dict__),
-            }.items()
-        )
+        if IS_ITERABLE(obj):
+            return {TYPE: ITERATOR_TYPE, VALUE: [Serializer.serialize(item) for item in obj]}
 
-        return result
+        if inspect.ismethod(obj):
+            return {TYPE: type(obj).__name__, VALUE: Serializer._serialize_function(obj.__func__)}
+
+        return {
+            TYPE: "object",
+            VALUE: {
+                "__class__": Serializer.serialize(obj.__class__),
+                "__vars__": {key: Serializer.serialize(value) for key, value in vars(obj).items()},
+            },
+        }
 
     @staticmethod
-    def __serialize_collection(obj: object) -> dict[str, object]:
-        """
-        Serializes collections
-        """
-        result: dict[str, object] = {}
-        result[TYPE_ANNOTATION] = type(obj).__name__
-        result[VALUE_ANNOTATION] = tuple(Serializer.serialize(current) for current in obj)
-
-        return result
-
-    @staticmethod
-    def __serialize_dictionary(obj: object) -> dict[str, object]:
-        """
-        Serializes dictionary
-        """
-        result: dict[str, object] = {}
-        result[TYPE_ANNOTATION] = DICT_ANNOTATION
-        result[VALUE_ANNOTATION] = tuple(
-            (Serializer.serialize(key), Serializer.serialize(value)) for key, value in obj.items()
-        )
-
-        return result
+    def _serialize_function(obj: FunctionType, cls=None):
+        return {
+            "__name__": obj.__name__,
+            "__globals__": Serializer._serialize_globals(obj, cls),
+            "__closure__": Serializer.serialize(obj.__closure__),
+            "__defaults__": Serializer.serialize(obj.__defaults__),
+            "__kwdefaults__": Serializer.serialize(obj.__kwdefaults__),
+            "__code__": {
+                key: Serializer.serialize(value) for key, value in inspect.getmembers(obj.__code__) if key in CODE_ATTRIBUTES
+            },
+        }
 
     @staticmethod
-    def __serialize_function(obj: object) -> dict[str, object]:
-        """
-        Serializes function
-        """
-        result: dict[str, object] = {}
-        result[TYPE_ANNOTATION] = FUNCTION_ANNOTATION
-        from serializer.serializer import serializer_low  # pylint: disable=C
+    def _serialize_globals(obj, cls=None):
+        globs = {}
 
-        result[VALUE_ANNOTATION] = {}
-        result[VALUE_ANNOTATION][Serializer.serialize("real")] = serializer_low._dumps(obj)
-        for member in [current for current in inspect.getmembers(obj) if current[0] in FUNCTION_ATTRIBUTES]:
-            key = Serializer.serialize(member[0])
-            if member[0] != CLOSURE:
-                value = Serializer.serialize(member[1])
+        for key, value in obj.__globals__.items():
+            if key not in obj.__code__.co_names:
+                continue
+
+            if isinstance(value, ModuleType):
+                globs[f"module {key}"] = Serializer.serialize(key)
+
+            elif inspect.isclass(value):
+                if cls and value != cls or not cls:
+                    globs[key] = Serializer.serialize(value)
+
+            elif key == obj.__code__.co_name:
+                globs[key] = Serializer.serialize(obj.__name__)
+
             else:
-                value = Serializer.serialize(None)
-            result[VALUE_ANNOTATION][key] = value
-            if member[0] == CODE:
-                key = Serializer.serialize(GLOBALS)
-                result[VALUE_ANNOTATION][key] = {}
-                names = member[1].__getattribute__(NAMES)
-                glob = obj.__getattribute__(GLOBALS)
-                glob_dict = {}
-                for name in names:
-                    if name == obj.__name__:
-                        glob_dict[name] = obj.__name__
-                    elif name in glob and not inspect.ismodule(name) and name not in __builtins__:
-                        glob_dict[name] = glob[name]
-                result[VALUE_ANNOTATION][key] = Serializer.serialize(glob_dict)
-        result[VALUE_ANNOTATION] = tuple(result[VALUE_ANNOTATION].items())
+                globs[key] = Serializer.serialize(value)
 
-        return result
+        return globs
 
     @staticmethod
-    def __serialize_class(obj: object) -> dict[str, object]:
-        """
-        Serializes class
-        """
-        result: dict[str, object] = {}
-        result[TYPE_ANNOTATION] = CLASS_ANNOTATION
-        from serializer.serializer import serializer_low  # pylint: disable=C
+    def _serialize_class(obj):
+        serializeed = {}
+        serializeed["__name__"] = Serializer.serialize(obj.__name__)
 
-        result[VALUE_ANNOTATION] = tuple(
-            (Serializer.serialize(key), Serializer.serialize(value))
-            for key, value in [
-                *[member for member in inspect.getmembers(obj) if member[0] not in NOT_CLASS_ATTRIBUTES],
-                (NAME_NAME, obj.__name__),
-                ("real", serializer_low._dumps(obj)),
-            ]
-        )
+        for key, value in obj.__dict__.items():
+            if key in IGNORED_CLASS_ATTRIBUTES or type(value) in IGNORED_TYPES:
+                continue
 
-        return result
+            if isinstance(obj.__dict__[key], staticmethod):
+                serializeed[key] = {}
+                serializeed[key]["type"] = "staticmethod"
+                serializeed[key]["value"] = {"type": "function", "value": Serializer._serialize_function(value.__func__, obj)}
 
-    @staticmethod
-    def __serialize_code(obj: object) -> dict[str, object] | None:
-        """
-        Serializes code
-        """
-        if type(obj).__name__ is None:
-            return None
+            elif isinstance(obj.__dict__[key], classmethod):
+                serializeed[key] = {}
+                serializeed[key]["type"] = "classmethod"
+                serializeed[key]["value"] = {"type": "function", "value": Serializer._serialize_function(value.__func__, obj)}
 
-        return Serializer.__serialize_instance(obj)
+            elif inspect.ismethod(value):
+                serializeed[key] = Serializer._serialize_function(value.__func__, obj)
 
-    @staticmethod
-    def __serialize_module(obj: object) -> dict[str, object]:
-        """
-        Serializes module
-        """
-        result: dict[str, object] = {}
-        result[TYPE_ANNOTATION] = MODULE_ANNOTATION
-        result[VALUE_ANNOTATION] = obj.__name__
+            elif inspect.isfunction(value):
+                serializeed[key] = {}
+                serializeed[key]["type"] = "function"
+                serializeed[key]["value"] = Serializer._serialize_function(value, obj)
 
-        return result
-
-    @staticmethod
-    def __serialize_instance(obj: object) -> dict[str, object]:
-        """
-        Serializes instance
-        """
-        result: dict[str, object] = {}
-        result[TYPE_ANNOTATION] = type(obj).__name__
-        result[VALUE_ANNOTATION] = tuple(
-            (Serializer.serialize(key), Serializer.serialize(value))
-            for key, value in [member for member in inspect.getmembers(obj) if not callable(member[1])]
-        )
-
-        return result
-
-    @staticmethod
-    def deserialize(obj: dict[str, object]) -> object:
-        """
-        Deserializes object
-        """
-        obj = dict(obj)
-        deserializer: Callable[[object, object], object] = Serializer.__create_deserializer(obj[TYPE_ANNOTATION])
-        if deserializer is None:
-            return None
-
-        return deserializer(obj[TYPE_ANNOTATION], obj[VALUE_ANNOTATION])
-
-    @staticmethod
-    def __create_deserializer(object_type) -> Callable[[object, object], object]:
-        """
-        Returns function for type to deserealize
-        """
-        if object_type in [
-            str(bool.__name__),
-            str(str.__name__),
-            str(int.__name__),
-            str(float.__name__),
-            str(complex.__name__),
-            str(type(None).__name__),
-        ]:
-            return Serializer.__deserialize_primitive
-        if object_type in [str(list.__name__), str(tuple.__name__), str(bytes.__name__)]:
-            return Serializer.__deserialize_collections
-        if object_type == MODULE_ANNOTATION:
-            return Serializer.__deserialize_module
-        if object_type == DICT_ANNOTATION:
-            return Serializer.__deserialize_dictionary
-        if object_type == OBJECT_ANNOTATION:
-            return Serializer.__deserialize_object
-        if object_type == CLASS_ANNOTATION:
-            return Serializer.__deserialize_class
-        if object_type == FUNCTION_ANNOTATION:
-            return Serializer.__deserialize_function
-
-    @staticmethod
-    def __deserialize_primitive(object_type: object, obj: object | None = None) -> object:
-        """
-        Deserializes primite
-        """
-        if object_type == str(type(None).__name__):
-            return None
-        if object_type == str(type(True).__name__) and isinstance(obj, str):
-            return obj == str(True)
-
-        return locate(object_type)(obj)
-
-    @staticmethod
-    def __deserialize_collections(object_type: object, obj: object) -> object:
-        """
-        Deserialized collections
-        """
-        if object_type == str(tuple.__name__):
-            return tuple(Serializer.deserialize(current) for current in obj)
-        if object_type == str(bytes.__name__):
-            return bytes([Serializer.deserialize(current) for current in obj])
-
-        return [Serializer.deserialize(current) for current in obj]
-
-    @staticmethod
-    def __deserialize_module(_: object, obj: object) -> object:
-        """
-        Deserializes module
-        """
-        return __import__(obj)
-
-    @staticmethod
-    def __deserialize_dictionary(_: object, obj: object) -> object:
-        """
-        Deserialize dictionary
-        """
-        return {Serializer.deserialize(current[0]): Serializer.deserialize(current[1]) for current in obj}
-
-    @staticmethod
-    def __deserialize_object(_: object, obj: object) -> object:
-        """
-        Deserialize object
-        """
-        dct = Serializer.__deserialize_dictionary(DICT_ANNOTATION, obj)
-        result = dct[OBJECT_ANNOTATION]()
-        for key, value in dct[OBJECT_FIELDS].items():
-            setattr(result, key, value)
-
-        return result
-
-    @staticmethod
-    def __deserialize_class(_: object, obj: object) -> object:
-        """
-        Deserialize class
-        """
-        dct = Serializer.__deserialize_dictionary(DICT_ANNOTATION, obj)
-        name = dct[NAME_NAME]
-        del dct[NAME_NAME]
-        from  serializer.serializer import serializer_low  # pylint: disable=C
-
-        result = serializer_low._loads(dct["real"])
-
-        return result
-
-    @staticmethod
-    def __deserialize_function(_: object, obj: object) -> object:
-        """
-        Deserialize function
-        """
-        func = [0] * len(FUNCTION_ATTRIBUTES)
-        code = [0] * len(CODE_OBJECT_ARGS)
-        glob = {BUILTINS: __builtins__}
-
-        import serializer.serializer.serializer_low as serializer_low  # pylint: disable=C
-
-        result = None
-        for current in obj:
-            key = Serializer.deserialize(current[0])
-            if key == "real":
-                result = serializer_low._loads(current[1])
-                break
-            if key == GLOBALS:
-                for lkey, value in Serializer.deserialize(current[1]).items():
-                    glob[lkey] = value
-            elif key == CODE:
-                for arg in current[1][1][1]:
-                    code_arg_key = Serializer.deserialize(arg[0])
-                    if not code_arg_key in (DOC, LINETABLE):
-                        code_arg_value = Serializer.deserialize(arg[1])
-                        index = CODE_OBJECT_ARGS.index(code_arg_key)
-                        code[index] = code_arg_value
-                code = CodeType(*code)
             else:
-                index = FUNCTION_ATTRIBUTES.index(key)
-                func[index] = Serializer.deserialize(current[1])
-        func[0] = code
-        func.insert(1, glob)
+                serializeed[key] = Serializer.serialize(value)
 
-        return result
+        serializeed["__bases__"] = {}
+        serializeed["__bases__"]["type"] = "tuple"
+        serializeed["__bases__"]["value"] = [Serializer.serialize(item) for item in obj.__bases__ if item != object]
+
+        return serializeed

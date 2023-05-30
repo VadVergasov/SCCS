@@ -10,33 +10,29 @@ class Parser(ABC):
     Base parser
     """
 
-    def __init__(self):
-        # TODO
-        pass
-
-    @abstractmethod
     @staticmethod
+    @abstractmethod
     def dump(obj: object, fp: io.IOBase) -> None:
         """
         Prints object to fp
         """
 
-    @abstractmethod
     @staticmethod
+    @abstractmethod
     def dumps(obj: object) -> str:
         """
         Returns string with serialized obj
         """
 
-    @abstractmethod
     @staticmethod
+    @abstractmethod
     def load(fp: io.IOBase) -> object:
         """
         Returns object serialized from obj
         """
 
-    @abstractmethod
     @staticmethod
+    @abstractmethod
     def loads(string: str) -> object:
         """
         Returns object serialized from obj

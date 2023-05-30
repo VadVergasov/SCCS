@@ -2,10 +2,12 @@
 JSON Parser file
 """
 import io
+import regex
 
 from serializer.factory.parsers.parser import Parser
 
-from serializer.serializer.serializer import Serializer
+from serializer.constants import PRIMITIVES, JsonRegularExpression as Expression
+from serializer.serializer import Serializer, Deserializer
 
 
 class ParserJson(Parser):
@@ -18,41 +20,57 @@ class ParserJson(Parser):
         """
         Serializes to json format
         """
-        if type(obj) == tuple:
-            serialized = []
-            for current in obj:
-                serialized.append(f"{ParserJson.__serialize_json(current)}")
-            return f"[{', '.join(serialized)}]"
-        else:
-            return f'"{str(obj)}"'
+        if isinstance(obj, PRIMITIVES):
+            if isinstance(obj, str):
+                return '"' + obj.replace("\\", "\\\\").replace('"', '"').replace("'", "'") + '"'
+            return str(obj)
+
+        if isinstance(obj, list):
+            return "[" + ", ".join([ParserJson.__serialize_json(item) for item in obj]) + "]"
+
+        return (
+            "{"
+            + ", ".join(
+                [
+                    f"{ParserJson.__serialize_json(key)}: {ParserJson.__serialize_json(value)}"
+                    for key, value in obj.items()
+                ]
+            )
+            + "}"
+        )
 
     @staticmethod
-    def __deserialize_json(obj: str) -> object:
-        if obj == "[]":
-            return tuple()
-        if obj[0] == "[":
-            obj = obj[1 : len(obj) - 1]
-            deserialized_obj = []
-            depth = 0
-            is_quote = False
-            substr = ""
-            for i in obj:
-                if i == "[":
-                    depth += 1
-                elif i == "]":
-                    depth -= 1
-                elif i == '"':
-                    is_quote = not is_quote
-                elif i == "," and not is_quote and depth == 0:
-                    deserialized_obj.append(ParserJson.__deserialize_json(substr))
-                    substr = ""
-                    continue
-                elif i == " " and not is_quote:
-                    continue
-                substr += i
-            deserialized_obj.append(ParserJson.__deserialize_json(substr))
-            return tuple(deserialized_obj)
-        return obj[1 : len(obj) - 1]
+    def __deserialize_json(string: str) -> object:
+        string = string.strip()
+
+        if regex.fullmatch(Expression.INT.value, string):
+            return int(string)
+
+        if regex.fullmatch(Expression.STR.value, string):
+            string = string.replace("\\\\", "\\").replace(r"\"", '"').replace(r"\'", "'")
+            return string[1:-1]
+
+        if regex.fullmatch(Expression.FLOAT.value, string):
+            return float(string)
+
+        if regex.fullmatch(Expression.BOOL.value, string):
+            return string == "True"
+
+        if regex.fullmatch(Expression.NONE.value, string):
+            return None
+
+        if string.startswith("[") and string.endswith("]"):
+            string = string[1:-1]
+            matches = regex.findall(Expression.ANY_VALUE.value, string)
+            return [ParserJson.__deserialize_json(match[0]) for match in matches]
+
+        if string.startswith("{") and string.endswith("}"):
+            string = string[1:-1]
+            matches = regex.findall(Expression.ANY_VALUE.value, string)
+            return {
+                ParserJson.__deserialize_json(matches[i][0]): ParserJson.__deserialize_json(matches[i + 1][0])
+                for i in range(0, len(matches), 2)
+            }
 
     @staticmethod
     def dump(obj: object, fp: io.IOBase) -> None:
@@ -67,7 +85,7 @@ class ParserJson(Parser):
         Returns string with serialized obj
         """
         serialized = Serializer.serialize(obj)
-        return ParserJson.__serialize_json(serialized).replace("\n", "\\n")
+        return ParserJson.__serialize_json(serialized)
 
     @staticmethod
     def load(fp: io.IOBase) -> object:
@@ -82,4 +100,4 @@ class ParserJson(Parser):
         Returns object serialized from obj
         """
         obj = ParserJson.__deserialize_json(string)
-        return Serializer.deserialize(obj)
+        return Deserializer.deserialize(obj)
