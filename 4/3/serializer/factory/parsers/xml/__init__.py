@@ -1,4 +1,4 @@
 """
 Init for xml module
 """
-from .parser import ParserXml
+from serializer.factory.parsers.xml.parser import ParserXml

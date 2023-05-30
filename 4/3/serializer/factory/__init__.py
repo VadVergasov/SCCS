@@ -1,1 +1,1 @@
-from .factory import Factory
+from serializer.factory.factory import Factory
