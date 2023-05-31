@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name="vadvergasov_serialization",
-    version="1.0.0",
+    version="1.1.0",
     description="Serialization library",
     url="https://github.com/VadVergasov/SCCS",
     author="VadVergasov",
@@ -18,4 +18,5 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=["regex"],
+     python_requires="==3.11"
 )
