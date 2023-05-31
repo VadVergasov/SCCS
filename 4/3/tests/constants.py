@@ -77,6 +77,12 @@ def lambda2(a, b, c):
     return a + b + c
 
 
+def fact(n):
+    if n <= 1:
+        return 1
+    return n * fact(n - 1)
+
+
 # class test
 
 
