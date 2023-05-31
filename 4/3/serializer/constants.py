@@ -24,8 +24,10 @@ CODE_ATTRIBUTES = (
     "co_varnames",
     "co_filename",
     "co_name",
+    "co_qualname",
     "co_firstlineno",
     "co_lnotab",
+    "co_exceptiontable",
     "co_freevars",
     "co_cellvars",
 )
