@@ -47,6 +47,14 @@
 !/4/3/tests
 !/4/3/tests/*.py
 
+!/4/4
+!/4/4/lab4
+!/4/4/lab4/*.py
+!/4/4/museum_api
+!/4/4/museum_api/*.py
+!/4/4/museum_api/migrations
+!/4/4/museum_api/migrations/*.py
+
 !/.github
 !/.github/workflows
 !/.github/workflows/build-docker.yml
