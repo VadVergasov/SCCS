@@ -1,11 +1,12 @@
 from rest_framework import viewsets, permissions
-from .models import ArtType, Exhibit, Gallery, Position, Tour
+from .models import ArtType, Exhibit, Gallery, Position, Tour, User
 from .serializers import (
     ArtTypeSerializer,
     ExhibitSerializer,
     GallerySerializer,
     PositionSerializer,
     TourSerializer,
+    UserSerializer,
 )
 
 
@@ -111,4 +112,28 @@ class TourViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "retrieve":
             return TourSerializer
+        return self.serializer_class
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes_by_action = {
+        "list": [permissions.IsAuthenticated],
+        "create": [permissions.IsAdminUser],
+        "retrieve": [permissions.IsAuthenticated],
+        "update": [permissions.IsAdminUser],
+        "partial_update": [permissions.IsAdminUser],
+        "destroy": [permissions.IsAdminUser],
+    }
+
+    def get_permissions(self):
+        try:
+            return [permission() for permission in self.permission_classes_by_action[self.action]]
+        except KeyError:
+            return [permission() for permission in self.permission_classes]
+
+    def get_serializer_class(self):
+        if self.action == "retrieve":
+            return UserSerializer
         return self.serializer_class

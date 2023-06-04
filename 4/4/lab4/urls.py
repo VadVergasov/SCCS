@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from django.views.generic.base import RedirectView
-from museum_api.views import ArtTypeViewSet, ExhibitViewSet, GalleryViewSet, PositionViewSet, TourViewSet
+from museum_api.views import ArtTypeViewSet, ExhibitViewSet, GalleryViewSet, PositionViewSet, TourViewSet, UserViewSet
 from rest_framework import routers
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
@@ -27,6 +27,7 @@ router.register(r"exhibits", ExhibitViewSet)
 router.register(r"galleries", GalleryViewSet)
 router.register(r"positions", PositionViewSet)
 router.register(r"tours", TourViewSet)
+router.register(r"users", UserViewSet)
 
 urlpatterns = [
     path("admin/", admin.site.urls),
