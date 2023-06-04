@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ArtType, Exhibit, Gallery, Position
+from .models import ArtType, Exhibit, Gallery, Position, Tour
 
 
 class ArtTypeSerializer(serializers.ModelSerializer):
@@ -41,4 +41,10 @@ class GalleryDetailSerializer(serializers.ModelSerializer):
 class PositionDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
+        fields = "__all__"
+
+
+class TourSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Tour
         fields = "__all__"

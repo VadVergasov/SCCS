@@ -53,3 +53,15 @@ class Position(models.Model):
 
     def __str__(self):
         return str(self.name)
+
+
+class Tour(models.Model):
+    name = models.CharField(max_length=100)
+    date = models.DateField()
+    start_time = models.TimeField()
+    end_time = models.TimeField(null=True)
+    cost = models.IntegerField()
+    staff = models.ForeignKey(User, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return str(self.name)
