@@ -51,6 +51,10 @@
 !/4/4/*.py
 !/4/4/*.sqlite3
 !/4/4/requirements.txt
+!/4/4/templates
+!/4/4/templates/*.html
+!/4/4/templates/rest_framework
+!/4/4/templates/rest_framework/*.html
 !/4/4/lab4
 !/4/4/lab4/*.py
 !/4/4/museum_api
