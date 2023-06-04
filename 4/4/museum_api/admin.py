@@ -1,8 +1,26 @@
 from django.contrib import admin
-from museum_api.models import ArtType, Exhibit, Gallery, Employee, Position
+from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
+from museum_api.models import ArtType, Employee, Exhibit, Gallery, Position, User
 
 admin.site.register(ArtType)
 admin.site.register(Exhibit)
 admin.site.register(Gallery)
 admin.site.register(Employee)
 admin.site.register(Position)
+
+
+class UserAdmin(DefaultUserAdmin):
+    list_display = ("username", "email", "first_name", "last_name", "is_staff", "birth_date", "phone_number")
+    fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        ("Personal info", {"fields": ("first_name", "last_name", "email", "phone_number", "birth_date")}),
+        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
+    )
+    add_fieldsets = (
+        (None, {"fields": ("username", "password")}),
+        ("Personal info", {"fields": ("first_name", "last_name", "email", "phone_number", "birth_date")}),
+        ("Permissions", {"fields": ("is_active", "is_staff", "is_superuser", "groups", "user_permissions")}),
+    )
+
+
+admin.site.register(User, UserAdmin)

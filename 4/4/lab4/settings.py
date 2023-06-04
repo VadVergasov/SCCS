@@ -75,6 +75,8 @@ WSGI_APPLICATION = "lab4.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+AUTH_USER_MODEL = "museum_api.User"
+
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.sqlite3",

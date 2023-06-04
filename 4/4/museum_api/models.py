@@ -1,4 +1,11 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    REQUIRED_FIELDS = ["birth_date", "phone_number"]
+    birth_date = models.DateField(blank=False, null=False)
+    phone_number = models.CharField(max_length=20, blank=False, null=False)
 
 
 class ArtType(models.Model):
