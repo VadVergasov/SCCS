@@ -12,7 +12,12 @@ from .serializers import (
 class ArtTypeViewSet(viewsets.ModelViewSet):
     queryset = ArtType.objects.all()
     serializer_class = ArtTypeSerializer
-    permission_classes_by_action = {"create": [permissions.IsAuthenticated]}
+    permission_classes_by_action = {
+        "create": [permissions.IsAuthenticated],
+        "update": [permissions.IsAuthenticated],
+        "partial_update": [permissions.IsAuthenticated],
+        "destroy": [permissions.IsAuthenticated],
+    }
 
     def get_permissions(self):
         try:
@@ -24,7 +29,12 @@ class ArtTypeViewSet(viewsets.ModelViewSet):
 class ExhibitViewSet(viewsets.ModelViewSet):
     queryset = Exhibit.objects.all()
     serializer_class = ExhibitSerializer
-    permission_classes_by_action = {"create": [permissions.IsAuthenticated]}
+    permission_classes_by_action = {
+        "create": [permissions.IsAuthenticated],
+        "update": [permissions.IsAuthenticated],
+        "partial_update": [permissions.IsAuthenticated],
+        "destroy": [permissions.IsAuthenticated],
+    }
 
     def get_permissions(self):
         try:
@@ -41,7 +51,12 @@ class ExhibitViewSet(viewsets.ModelViewSet):
 class GalleryViewSet(viewsets.ModelViewSet):
     queryset = Gallery.objects.all()
     serializer_class = GallerySerializer
-    permission_classes_by_action = {"create": [permissions.IsAuthenticated]}
+    permission_classes_by_action = {
+        "create": [permissions.IsAuthenticated],
+        "update": [permissions.IsAuthenticated],
+        "partial_update": [permissions.IsAuthenticated],
+        "destroy": [permissions.IsAuthenticated],
+    }
 
     def get_permissions(self):
         try:
@@ -58,7 +73,12 @@ class GalleryViewSet(viewsets.ModelViewSet):
 class PositionViewSet(viewsets.ModelViewSet):
     queryset = Position.objects.all()
     serializer_class = PositionSerializer
-    permission_classes_by_action = {"create": [permissions.IsAuthenticated]}
+    permission_classes_by_action = {
+        "create": [permissions.IsAuthenticated],
+        "update": [permissions.IsAuthenticated],
+        "partial_update": [permissions.IsAuthenticated],
+        "destroy": [permissions.IsAuthenticated],
+    }
 
     def get_permissions(self):
         try:
@@ -75,7 +95,12 @@ class PositionViewSet(viewsets.ModelViewSet):
 class TourViewSet(viewsets.ModelViewSet):
     queryset = Tour.objects.all()
     serializer_class = TourSerializer
-    permission_classes_by_action = {"create": [permissions.IsAuthenticated]}
+    permission_classes_by_action = {
+        "create": [permissions.IsAuthenticated],
+        "update": [permissions.IsAuthenticated],
+        "partial_update": [permissions.IsAuthenticated],
+        "destroy": [permissions.IsAuthenticated],
+    }
 
     def get_permissions(self):
         try:
