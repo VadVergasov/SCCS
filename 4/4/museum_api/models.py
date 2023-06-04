@@ -6,7 +6,7 @@ class ArtType(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class Exhibit(models.Model):
@@ -15,7 +15,7 @@ class Exhibit(models.Model):
     art_type = models.ForeignKey(ArtType, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class Gallery(models.Model):
@@ -23,7 +23,7 @@ class Gallery(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class Employee(models.Model):
@@ -32,7 +32,7 @@ class Employee(models.Model):
     position = models.ForeignKey("Position", on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 
 class Position(models.Model):
@@ -40,4 +40,4 @@ class Position(models.Model):
     name = models.CharField(max_length=100)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
