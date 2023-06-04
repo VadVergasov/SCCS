@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ArtType, Exhibit, Gallery, Employee, Position
+from .models import ArtType, Exhibit, Gallery, Position
 
 
 class ArtTypeSerializer(serializers.ModelSerializer):
@@ -20,12 +20,6 @@ class GallerySerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class EmployeeSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Employee
-        fields = "__all__"
-
-
 class PositionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Position
@@ -41,12 +35,6 @@ class ExhibitDetailSerializer(serializers.ModelSerializer):
 class GalleryDetailSerializer(serializers.ModelSerializer):
     class Meta:
         model = Gallery
-        fields = "__all__"
-
-
-class EmployeeDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Employee
         fields = "__all__"
 
 

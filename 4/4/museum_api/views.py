@@ -1,14 +1,12 @@
 from rest_framework import viewsets, permissions
-from .models import ArtType, Exhibit, Gallery, Employee, Position
+from .models import ArtType, Exhibit, Gallery, Position
 from .serializers import (
     ArtTypeSerializer,
     ExhibitSerializer,
     GallerySerializer,
-    EmployeeSerializer,
     PositionSerializer,
     ExhibitDetailSerializer,
     GalleryDetailSerializer,
-    EmployeeDetailSerializer,
     PositionDetailSerializer,
 )
 
@@ -56,23 +54,6 @@ class GalleryViewSet(viewsets.ModelViewSet):
     def get_serializer_class(self):
         if self.action == "retrieve":
             return GalleryDetailSerializer
-        return self.serializer_class
-
-
-class EmployeeViewSet(viewsets.ModelViewSet):
-    queryset = Employee.objects.all()
-    serializer_class = EmployeeSerializer
-    permission_classes_by_action = {"create": [permissions.IsAuthenticated]}
-
-    def get_permissions(self):
-        try:
-            return [permission() for permission in self.permission_classes_by_action[self.action]]
-        except KeyError:
-            return [permission() for permission in self.permission_classes]
-
-    def get_serializer_class(self):
-        if self.action == "retrieve":
-            return EmployeeDetailSerializer
         return self.serializer_class
 
 

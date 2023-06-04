@@ -17,7 +17,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 from rest_framework import routers
-from museum_api.views import ArtTypeViewSet, ExhibitViewSet, GalleryViewSet, EmployeeViewSet, PositionViewSet
+from museum_api.views import ArtTypeViewSet, ExhibitViewSet, GalleryViewSet, PositionViewSet
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
 
 
@@ -25,7 +25,6 @@ router = routers.DefaultRouter()
 router.register(r"arttypes", ArtTypeViewSet)
 router.register(r"exhibits", ExhibitViewSet)
 router.register(r"galleries", GalleryViewSet)
-router.register(r"employees", EmployeeViewSet)
 router.register(r"positions", PositionViewSet)
 
 urlpatterns = [

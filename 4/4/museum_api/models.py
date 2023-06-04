@@ -33,15 +33,6 @@ class Gallery(models.Model):
         return str(self.name)
 
 
-class Employee(models.Model):
-    id = models.AutoField(primary_key=True)
-    name = models.CharField(max_length=100)
-    position = models.ForeignKey("Position", on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.name)
-
-
 class Position(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100)
