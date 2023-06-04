@@ -48,6 +48,8 @@
 !/4/3/tests/*.py
 
 !/4/4
+!/4/4/*.py
+!/4/4/*.sqlite3
 !/4/4/lab4
 !/4/4/lab4/*.py
 !/4/4/museum_api
