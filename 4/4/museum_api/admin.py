@@ -1,11 +1,12 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as DefaultUserAdmin
-from museum_api.models import ArtType, Exhibit, Gallery, Position, User
+from museum_api.models import ArtType, Exhibit, Gallery, Position, User, Tour
 
 admin.site.register(ArtType)
 admin.site.register(Exhibit)
 admin.site.register(Gallery)
 admin.site.register(Position)
+admin.site.register(Tour)
 
 
 class UserAdmin(DefaultUserAdmin):
