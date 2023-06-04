@@ -26,24 +26,6 @@ class PositionSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
-class ExhibitDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Exhibit
-        fields = "__all__"
-
-
-class GalleryDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Gallery
-        fields = "__all__"
-
-
-class PositionDetailSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Position
-        fields = "__all__"
-
-
 class TourSerializer(serializers.ModelSerializer):
     class Meta:
         model = Tour

@@ -6,9 +6,6 @@ from .serializers import (
     GallerySerializer,
     PositionSerializer,
     TourSerializer,
-    ExhibitDetailSerializer,
-    GalleryDetailSerializer,
-    PositionDetailSerializer,
 )
 
 
@@ -37,7 +34,7 @@ class ExhibitViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == "retrieve":
-            return ExhibitDetailSerializer
+            return ExhibitSerializer
         return self.serializer_class
 
 
@@ -54,7 +51,7 @@ class GalleryViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == "retrieve":
-            return GalleryDetailSerializer
+            return GallerySerializer
         return self.serializer_class
 
 
@@ -71,7 +68,7 @@ class PositionViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action == "retrieve":
-            return PositionDetailSerializer
+            return PositionSerializer
         return self.serializer_class
 
 
