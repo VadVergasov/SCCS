@@ -62,6 +62,22 @@
 !/4/4/museum_api/migrations
 !/4/4/museum_api/migrations/*.py
 
+!/5
+!/5/1
+!/5/1/*.py
+!/5/1/*.sqlite3
+!/5/1/requirements.txt
+!/5/1/lab
+!/5/1/lab/*.py
+!/5/1/museum_api
+!/5/1/museum_api/*.py
+!/5/1/museum_api/migrations
+!/5/1/museum_api/migrations/*.py
+!/5/1/templates
+!/5/1/templates/*html
+!/5/1/templates/rest_framework
+!/5/1/templates/rest_framework/*.py
+
 !/.github
 !/.github/workflows
 !/.github/workflows/build-docker.yml
