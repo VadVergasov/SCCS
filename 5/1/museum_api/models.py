@@ -68,7 +68,7 @@ class Tour(models.Model):
 
 
 class Article(models.Model):
-    name = models.CharField(max_length=100, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, unique=True)
     content = models.TextField()
     creation_time = models.TimeField(auto_created=True)
-

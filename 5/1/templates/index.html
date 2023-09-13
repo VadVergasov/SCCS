@@ -2,4 +2,10 @@
 
 {% block title %} Museum {% endblock %}
 
-{% block content %} <h1>Музей</h1> {% endblock %}
+{% block content %}
+<div class="row justify-content-md-center align-items-center">
+    <h2 class="column col-lg-auto">Последняя статья:</h2>
+    <p class="column col-lg-auto">{{ article_name }}</p>
+    <a class="column col-lg-auto btn btn-primary" href="{% url 'article_detail' article_id %}">Читать далее</a>
+</div>
+{% endblock %}

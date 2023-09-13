@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ArtType, Exhibit, Gallery, Position, Tour, User
+from .models import ArtType, Exhibit, Gallery, Position, Tour, User, Article
 from datetime import date
 
 
@@ -57,3 +57,9 @@ class UserSerializer(serializers.ModelSerializer):
         if birth_date >= date.today():
             raise serializers.ValidationError("Birthday can't be in the future.")
         return birth_date
+
+
+class ArticleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Article
+        fields = "__all__"
