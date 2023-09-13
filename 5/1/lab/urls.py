@@ -36,5 +36,7 @@ urlpatterns = [
     path("api/token/refresh/", TokenRefreshView.as_view(), name="token_refresh"),
     path("api/token/verify/", TokenVerifyView.as_view(), name="token_verify"),
     path("", views.index, name="index"),
-    path("news/<int:id>/", views.get_article, name="article_detail")
+    path("news/<int:id>/", views.get_article, name="article_detail"),
+    path("privacy", views.privacy, name="privacy"),
+    path("about", views.about, name="about"),
 ]

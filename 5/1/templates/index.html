@@ -8,4 +8,10 @@
     <p class="column col-lg-auto">{{ article_name }}</p>
     <a class="column col-lg-auto btn btn-primary" href="{% url 'article_detail' article_id %}">Читать далее</a>
 </div>
+<div class="row justify-content-md-center align-items-center">
+    <section>
+        {% load static %}
+        <img src="{% static 'img/ads.jpg' %}" alt="Advertisment" />
+    </section>
+</div>
 {% endblock %}

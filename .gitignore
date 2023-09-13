@@ -69,6 +69,11 @@
 !/5/1/requirements.txt
 !/5/1/lab
 !/5/1/lab/*.py
+!/5/1/lab/static
+!/5/1/lab/static/img
+!/5/1/lab/static/img/*
+!/5/1/lab/static/video
+!/5/1/lab/static/video/*
 !/5/1/museum_api
 !/5/1/museum_api/*.py
 !/5/1/museum_api/migrations
