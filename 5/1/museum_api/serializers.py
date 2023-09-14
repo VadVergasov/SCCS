@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import ArtType, Exhibit, Gallery, Position, Tour, User, Article
+from .models import ArtType, Exhibit, Gallery, Position, Tour, User, Article, Review
 from datetime import date
 
 
@@ -62,4 +62,10 @@ class UserSerializer(serializers.ModelSerializer):
 class ArticleSerializer(serializers.ModelSerializer):
     class Meta:
         model = Article
+        fields = "__all__"
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
         fields = "__all__"

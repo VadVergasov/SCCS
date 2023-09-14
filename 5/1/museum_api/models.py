@@ -71,4 +71,10 @@ class Article(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=100, unique=True)
     content = models.TextField()
-    creation_time = models.TimeField(auto_created=True)
+    creation_time = models.TimeField(auto_now=True)
+
+class Review(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=60)
+    content = models.TextField()
+    creation_time = models.TimeField(auto_now=True)

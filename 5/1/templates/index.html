@@ -3,15 +3,34 @@
 {% block title %} Museum {% endblock %}
 
 {% block content %}
+<br />
 <div class="row justify-content-md-center align-items-center">
     <h2 class="column col-lg-auto">Последняя статья:</h2>
     <p class="column col-lg-auto">{{ article_name }}</p>
     <a class="column col-lg-auto btn btn-primary" href="{% url 'article_detail' article_id %}">Читать далее</a>
 </div>
+<br />
 <div class="row justify-content-md-center align-items-center">
-    <section>
-        {% load static %}
-        <img src="{% static 'img/ads.jpg' %}" alt="Advertisment" />
-    </section>
+    {% load static %}
+    <div class="column col-lg-auto">
+        <h3>Список компаний-партнеров:</h3>
+        <ul class="list-group">
+            <li class="row list-group-item">
+                <a href="https://artmuseum.by/ru" class="column">Национальный художественный музей Республики
+                    Беларусь</a>
+                <br />
+                <img class="bg-dark column" src="https://artmuseum.by/Content/images/logos/logo-white.svg"
+                    alt="Логотип" />
+            </li>
+            <li class="row list-group-item">
+                <a href="https://hermitagemuseum.ru/" class="column">Государственный эрмитаж</a>
+                <br />
+                <img class="column" style="max-width: 30em; max-height: 20em;" src="https://www.pngkey.com/png/detail/762-7620849_hermitage-museum-logo.png"
+                    alt="Логотип" />
+            </li>
+        </ul>
+    </div>
+    <img src="{% static 'img/ads.jfif' %}" class="rounded mx-auto d-block column col-lg-auto    " alt="Advertisment"
+        style="max-width: 35em; max-height: 35em;" />
 </div>
 {% endblock %}

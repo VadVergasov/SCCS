@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %} Новости {% endblock %}
+
+{% block content %}
+{% for article in articles %}
+<div class="row justify-content-md-center align-items-center">
+    <p class="column col-lg-auto">{{ article.name }}</p>
+    <a class="column col-lg-auto btn btn-primary" href="{% url 'article_detail' article.id %}">Читать далее</a>
+</div>
+{% endfor %}
+{% endblock %}
