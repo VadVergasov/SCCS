@@ -39,5 +39,6 @@ urlpatterns = [
     path("articles/<int:id>/", views.get_article, name="article_detail"),
     path("privacy/", views.privacy, name="privacy"),
     path("about/", views.about, name="about"),
-    path("articles/", views.articles, name="articles")
+    path("articles/", views.articles, name="articles"),
+    path("contacts/", views.contacts, name="contacts")
 ]

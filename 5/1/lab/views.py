@@ -39,6 +39,10 @@ def articles(request: HttpRequest):
     return render(request, "articles.html", {"articles": serialized.data})
 
 
+def contacts(request: HttpRequest):
+    return render(request, "contacts.html")
+
+
 def get_article(request: HttpRequest, id: int):
     article = Article.objects.get(id=id)
     return render(
