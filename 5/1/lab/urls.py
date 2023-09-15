@@ -40,5 +40,7 @@ urlpatterns = [
     path("privacy/", views.privacy, name="privacy"),
     path("about/", views.about, name="about"),
     path("articles/", views.articles, name="articles"),
-    path("contacts/", views.contacts, name="contacts")
+    path("contacts/", views.contacts, name="contacts"),
+    path("promos/", views.promos, name="promos"),
+    path("submit-review/", views.submit_review, name="submit-review"),
 ]

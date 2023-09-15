@@ -25,12 +25,31 @@
             <li class="row list-group-item">
                 <a href="https://hermitagemuseum.ru/" class="column">Государственный эрмитаж</a>
                 <br />
-                <img class="column" style="max-width: 30em; max-height: 20em;" src="https://www.pngkey.com/png/detail/762-7620849_hermitage-museum-logo.png"
-                    alt="Логотип" />
+                <img class="column" style="max-width: 30em; max-height: 20em;"
+                    src="https://www.pngkey.com/png/detail/762-7620849_hermitage-museum-logo.png" alt="Логотип" />
             </li>
         </ul>
     </div>
-    <img src="{% static 'img/ads.jfif' %}" class="rounded mx-auto d-block column col-lg-auto    " alt="Advertisment"
+    <img src="{% static 'img/ads.jfif' %}" class="rounded mx-auto d-block column col-lg-auto" alt="Advertisment"
         style="max-width: 35em; max-height: 35em;" />
 </div>
+<form action="{% url 'submit-review' %}" method="post">
+    {% csrf_token %}
+    <label for="title" class="form-label">Кратко:</label>
+    <input type="text" id="title" name="title"><br>
+
+    <label for="rating" class="form-label">Ваша оценка:</label>
+    <select id="rating" name="rating">
+        <option value="1">1 звезда</option>
+        <option value="2">2 звезды</option>
+        <option value="3">3 звезды</option>
+        <option value="4">4 звезды</option>
+        <option value="5">5 звезд</option>
+    </select><br>
+
+    <label for="review" class="form-label">Ваш отзыв:</label>
+    <textarea id="review" name="review"></textarea><br>
+
+    <button type="submit" class="btn btn-primary">Отправить отзыв</button>
+</form>
 {% endblock %}

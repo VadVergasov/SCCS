@@ -70,6 +70,8 @@
 !/5/1/lab
 !/5/1/lab/*.py
 !/5/1/lab/static
+!/5/1/lab/static/css
+!/5/1/lab/static/css/*.css
 !/5/1/lab/static/img
 !/5/1/lab/static/img/*
 !/5/1/lab/static/video

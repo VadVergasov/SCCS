@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 
 class User(AbstractUser):
@@ -77,4 +78,5 @@ class Review(models.Model):
     id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=60)
     content = models.TextField()
+    mark = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     creation_time = models.TimeField(auto_now=True)
