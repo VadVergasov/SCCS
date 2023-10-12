@@ -4,7 +4,7 @@
 
 {% block content %}
 <br />
-<div class="row justify-content-md-center align-items-center">
+<div class="row justify-content-md-center align-items-center article-container" id="last">
     <h2 class="column col-lg-auto">Последняя статья:</h2>
     <p class="column col-lg-auto">{{ article_name }}</p>
     <a class="column col-lg-auto btn btn-primary" href="{% url 'article_detail' article_id %}">Читать далее</a>
@@ -14,29 +14,30 @@
     {% load static %}
     <div class="column col-lg-auto">
         <h3>Список компаний-партнеров:</h3>
-        <ul class="list-group">
+        <ul class="list-group unicode-list">
             <li class="row list-group-item">
                 <a href="https://artmuseum.by/ru" class="column">Национальный художественный музей Республики
                     Беларусь</a>
-                <br />
-                <img class="bg-dark column" src="https://artmuseum.by/Content/images/logos/logo-white.svg"
+                <img class="bg-dark column partner-icon" src="https://artmuseum.by/Content/images/logos/logo-white.svg"
                     alt="Логотип" />
             </li>
             <li class="row list-group-item">
                 <a href="https://hermitagemuseum.ru/" class="column">Государственный эрмитаж</a>
-                <br />
-                <img class="column" style="max-width: 30em; max-height: 20em;"
+                <img class="column partner-icon" style="max-width: 30em; max-height: 20em;"
                     src="https://www.pngkey.com/png/detail/762-7620849_hermitage-museum-logo.png" alt="Логотип" />
             </li>
         </ul>
     </div>
     <img src="{% static 'img/ads.jfif' %}" class="rounded mx-auto d-block column col-lg-auto" alt="Advertisment"
-        style="max-width: 35em; max-height: 35em;" />
+        style="max-width: 20%; max-height: 20%; position: absolute; top: 35%; left: 85%; transform: translate(-50%, -50%);" />
+    <div class="banner">
+        <div class="animated-object"></div>
+    </div>
 </div>
 <form action="{% url 'submit-review' %}" method="post">
     {% csrf_token %}
     <label for="title" class="form-label">Кратко:</label>
-    <input type="text" id="title" name="title"><br>
+    <input type="text" id="title" name="title" maxlength="15"><br>
 
     <label for="rating" class="form-label">Ваша оценка:</label>
     <select id="rating" name="rating">
@@ -48,7 +49,7 @@
     </select><br>
 
     <label for="review" class="form-label">Ваш отзыв:</label>
-    <textarea id="review" name="review"></textarea><br>
+    <textarea id="review" name="review" minlength="10" pattern=".{10,}"></textarea><br>
 
     <button type="submit" class="btn btn-primary">Отправить отзыв</button>
 </form>

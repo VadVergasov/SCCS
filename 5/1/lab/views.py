@@ -56,7 +56,7 @@ def get_article(request: HttpRequest, id: int):
         "generated.html",
         {
             "title": article.name,
-            "content": f"<h1>{article.name}</h1><article>{article.content}</article>",
+            "content": f"<h1>{article.name}</h1><article style=\"column-count: 2; column-gap: 20px; \">\n\r{article.content}</article>",
         },
     )
 

@@ -1,14 +1,132 @@
-body {
-    min-height: 100vh;
-    margin: 0;
+@font-face {
+    font-family: 'Main';
+    src: url('https://fonts.googleapis.com/css2?family=Roboto');
 }
+
+@font-face {
+    font-family: 'Alt';
+    src: local('Calibri');
+}
+
+.bg-dark {
+    background-color: #333;
+}
+
+body {
+    font-family: 'Main', 'Alt', sans-serif;
+    max-width: 100%;
+    margin-top: 60px;
+    box-sizing: border-box;
+    line-height: 1.15;
+}
+
+@media screen and (min-width: 1200px) and (min-height: 800px) {
+    body {
+        font-size: 20px;
+        background-color: #EFEFEF;
+    }
+}
+
+@media screen and (max-width: 767px) and (max-height: 700px) {
+    body {
+        font-size: 14px;
+        background-color: #FAFAFA;
+    }
+}
+
+.partner-icon {
+    width: 5em;
+    height: 5em;
+    border-radius: 50%;
+    background-color: #3498db;
+    box-shadow: 0 4px 6px rgba(209, 5, 5, 0.842);
+    margin-right: 20px;
+}
+
+.navbar-brand {
+    font-size: 18px;
+    color: #d60f0f;
+    font-family: "Arial", sans-serif;
+    letter-spacing: 1px;
+}
+
+pre {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
 
 header {
     min-height: 50px;
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header * {
+    margin: 0 10px;
+    display: inline;
 }
 
 footer {
     min-height: 50px;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
+}
+
+footer a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.article-container {
+    position: relative;
+    background-color: #f0f0f0;
+    padding: 20px;
+    border: 1px solid #ddd;
+    width: 300px;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    /* Цвет фона вашего меню */
+    color: #fff;
+    /* Цвет текста */
+    padding: 10px;
+    /* Отступы */
+    z-index: 1000;
+    /* Уровень накладывания, чтобы оно было поверх других элементов */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    /* Тень (по желанию) */
+}
+
+.list-group-item {
+    height: 100%;
+    vertical-align: middle;
+    padding: 20px;
+}
+
+#last * {
+    display: inline;
+    margin: 10px;
+}
+
+.column {
+    vertical-align: middle;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
 
 body {
@@ -18,4 +136,234 @@ body {
 
 main {
     flex: 1;
+    padding: 20px;
+}
+
+a:link {
+    color: #0077b5;
+    text-decoration: none;
+}
+
+a:visited {
+    color: #c20d9b;
+    text-decoration: none;
+}
+
+a:hover {
+    color: #ff6600;
+    text-decoration: underline;
+}
+
+a:active {
+    color: #cc0000;
+}
+
+a:focus {
+    border: 2px solid #009900;
+    outline: none;
+}
+
+ul li:first-child {
+    font-weight: bold;
+    color: #FF0000;
+}
+
+ul li:last-child {
+    font-style: italic;
+    color: #0000FF;
+}
+
+ul li:nth-child(3) {
+    background-color: #FFFF00;
+}
+
+table tr:first-child {
+    background-color: #EFEFEF;
+}
+
+table tr:last-child {
+    background-color: #DDDDDD;
+}
+
+table tr:nth-child(5) {
+    font-weight: bold;
+    color: #009900;
+}
+
+table td:nth-child(2) {
+    font-style: italic;
+    color: #FF6600;
+}
+
+td:empty {
+    background-color: #c20d9b;
+}
+
+table {
+    margin: 0 auto;
+}
+
+tr:nth-child(odd) {
+    background-color: #f0f0f0;
+}
+
+tr:nth-child(even) {
+    background-color: #e0e0e0;
+}
+
+
+td,
+th {
+    text-align: center;
+    vertical-align: middle;
+    padding: 10px;
+}
+
+input:enabled {
+    border: 1px solid #009900;
+}
+
+input:required {
+    background-color: #FFFFCC;
+}
+
+input:disabled {
+    opacity: 0.5;
+}
+
+input:out-of-range {
+    background-color: #cc0000;
+    border: 1px solid #FF0000;
+}
+
+textarea:invalid {
+    border: 1px solid #FF0000;
+}
+
+input[type="checkbox"]:checked,
+input[type="radio"]:checked {
+    background-color: #66CCFF;
+}
+
+q[lang="en"]::before {
+    content: "“";
+}
+
+q[lang="en"]::after {
+    content: "”";
+}
+
+q[lang="ru"]::before {
+    content: "«";
+}
+
+q[lang="ru"]::after {
+    content: "»";
+}
+
+p::first-letter {
+    font-size: 150%;
+    font-weight: bold;
+    color: #FF0000;
+}
+
+p::first-line {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #0000FF;
+}
+
+#about::before {
+    content: "О нас: ";
+    color: #FF0000;
+}
+
+#about::after {
+    content: " На это всё.";
+    color: #0000FF;
+}
+
+.unicode-list {
+    list-style-type: none;
+}
+
+
+.unicode-list li::before {
+    content: "\25A0";
+    color: #FF0000;
+    margin-right: 5px;
+}
+
+::selection {
+    background-color: #FFCC00;
+    color: #000;
+}
+
+button[type="submit"] {
+    cursor: progress;
+}
+
+h2 {
+    text-transform: uppercase;
+}
+
+p {
+    text-indent: 2em;
+}
+
+.banner {
+    width: 300px;
+    height: 200px;
+    background-color: #3498db;
+    position: relative;
+    overflow: hidden;
+    position: absolute;
+    top: 50%;
+    left: 75%;
+}
+
+.animated-object {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: #FF5733;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    animation: rotateAnimation 5s linear infinite;
+    transform-origin: center;
+}
+
+@keyframes rotateAnimation {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+#logo {
+    width: 200px;
+    height: 200px;
+    margin-left: 110px;
+    margin-top: 110px;
+    background-size: cover;
+    align-content: center;
+    transform: translate(-50%, -50%);
+    animation: logoAnimation 2s ease-in-out forwards;
+    opacity: 0;
+}
+
+@keyframes logoAnimation {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 1;
+    }
 }
