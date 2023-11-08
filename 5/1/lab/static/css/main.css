@@ -20,7 +20,7 @@ body {
     line-height: 1.15;
 }
 
-@media screen and (min-width: 1200px) and (min-height: 800px) {
+@media screen and (min-width: 900px) and (min-height: 700px) {
     body {
         font-size: 20px;
         background-color: #EFEFEF;
@@ -29,7 +29,7 @@ body {
 
 @media screen and (max-width: 767px) and (max-height: 700px) {
     body {
-        font-size: 14px;
+        font-size: 10px;
         background-color: #FAFAFA;
     }
 }
@@ -51,11 +51,20 @@ body {
 }
 
 pre {
-    max-width: 100%;
+    max-width: 30%;
     overflow-x: auto;
     white-space: pre-wrap;
 }
 
+#certificate {
+    background-image: url("../img/ramka.jpg");
+    background-size: 100% 100%;
+    color: #e70c0c;
+    padding: 3%;
+    border-image: linear-gradient(#ff07ac, #a9df06) 30;
+    border-width: 4px;
+    border-style: solid;
+}
 
 header {
     min-height: 50px;
@@ -99,15 +108,10 @@ header {
     left: 0;
     width: 100%;
     background-color: #333;
-    /* Цвет фона вашего меню */
     color: #fff;
-    /* Цвет текста */
     padding: 10px;
-    /* Отступы */
     z-index: 1000;
-    /* Уровень накладывания, чтобы оно было поверх других элементов */
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    /* Тень (по желанию) */
 }
 
 .list-group-item {
@@ -220,7 +224,7 @@ th {
 }
 
 input:enabled {
-    border: 1px solid #009900;
+    border: 2px solid #009900;
 }
 
 input:required {
@@ -233,11 +237,11 @@ input:disabled {
 
 input:out-of-range {
     background-color: #cc0000;
-    border: 1px solid #FF0000;
+    border: 2px solid #FF0000;
 }
 
 textarea:invalid {
-    border: 1px solid #FF0000;
+    border: 2px solid #FF0000;
 }
 
 input[type="checkbox"]:checked,

@@ -72,6 +72,8 @@
 !/5/1/lab/static
 !/5/1/lab/static/css
 !/5/1/lab/static/css/*.css
+!/5/1/lab/static/js
+!/5/1/lab/static/js/*.js
 !/5/1/lab/static/img
 !/5/1/lab/static/img/*
 !/5/1/lab/static/video

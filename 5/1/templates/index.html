@@ -28,8 +28,20 @@
             </li>
         </ul>
     </div>
-    <img src="{% static 'img/ads.jfif' %}" class="rounded mx-auto d-block column col-lg-auto" alt="Advertisment"
-        style="max-width: 20%; max-height: 20%; position: absolute; top: 35%; left: 85%; transform: translate(-50%, -50%);" />
+    <div id="banner-container">
+        <a class="ads" style="display: block;" href="#"><img src="{% static 'img/ads.jfif' %}" style="max-width: 200px;" alt="Advertisment" /></a>
+        <a class="ads" style="display: none;" href="link2.html"><img src="{% static 'img/logo.jpeg' %}" style="max-width: 200px;" alt="Баннер 2" /></a>
+        <a class="ads" style="display: none;" href="link3.html"><img src="{% static 'img/ramka.jpg' %}" style="max-width: 200px;" alt="Баннер 3" /></a>
+    </div>
+    <script src="{% static 'js/rotation.js' %}"></script>
+
+    {% if user.is_superuser %}
+    <form>
+        <label for="interval">Интервал смены баннеров (в секундах):</label>
+        <input type="number" id="interval" min="1" value="5" value="2">
+    </form>
+    {% endif %}
+
     <div class="banner">
         <div class="animated-object"></div>
     </div>
