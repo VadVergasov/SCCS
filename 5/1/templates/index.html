@@ -3,6 +3,11 @@
 {% block title %} Museum {% endblock %}
 
 {% block content %}
+<form id="birthday-form">
+    <label for="birthdate">Введите вашу дату рождения:</label>
+    <input type="date" id="birthdate" required>
+    <input type="submit" value="Проверить возраст">
+</form>
 <br />
 <div class="row justify-content-md-center align-items-center article-container" id="last">
     <h2 class="column col-lg-auto">Последняя статья:</h2>
@@ -18,20 +23,30 @@
             <li class="row list-group-item">
                 <a href="https://artmuseum.by/ru" class="column">Национальный художественный музей Республики
                     Беларусь</a>
-                <img class="bg-dark column partner-icon" src="https://artmuseum.by/Content/images/logos/logo-white.svg"
-                    alt="Логотип" />
+                <div class="paralax column" style="display: inline-block;">
+                    <img class="bg-dark partner-icon"
+                        src="https://artmuseum.by/Content/images/logos/logo-white.svg" alt="Логотип" />
+                </div>
             </li>
             <li class="row list-group-item">
                 <a href="https://hermitagemuseum.ru/" class="column">Государственный эрмитаж</a>
-                <img class="column partner-icon" style="max-width: 30em; max-height: 20em;"
-                    src="https://www.pngkey.com/png/detail/762-7620849_hermitage-museum-logo.png" alt="Логотип" />
+                <div class="paralax column" style="display: inline-block;">
+                    <img class="partner-icon" style="max-width: 30em; max-height: 20em;"
+                        src="https://www.pngkey.com/png/detail/762-7620849_hermitage-museum-logo.png" alt="Логотип" />
+                </div>
             </li>
         </ul>
     </div>
     <div id="banner-container">
-        <a class="ads" style="display: block;" href="#"><img src="{% static 'img/ads.jfif' %}" style="max-width: 200px;" alt="Advertisment" /></a>
-        <a class="ads" style="display: none;" href="link2.html"><img src="{% static 'img/logo.jpeg' %}" style="max-width: 200px;" alt="Баннер 2" /></a>
-        <a class="ads" style="display: none;" href="link3.html"><img src="{% static 'img/ramka.jpg' %}" style="max-width: 200px;" alt="Баннер 3" /></a>
+        <a class="ads" style="display: block;" href="#">
+            <img src="{% static 'img/ads.jfif' %}" style="max-width: 200px;" alt="Advertisment" />
+        </a>
+        <a class="ads" style="display: none;" href="link2.html">
+            <img src="{% static 'img/logo.jpeg' %}" style="max-width: 200px;" alt="Баннер 2" />
+        </a>
+        <a class="ads" style="display: none;" href="link3.html">
+            <img src="{% static 'img/ramka.jpg' %}" style="max-width: 200px;" alt="Баннер 3" />
+        </a>
     </div>
     <script src="{% static 'js/rotation.js' %}"></script>
 
@@ -41,10 +56,6 @@
         <input type="number" id="interval" min="1" value="5" value="2">
     </form>
     {% endif %}
-
-    <div class="banner">
-        <div class="animated-object"></div>
-    </div>
 </div>
 <form action="{% url 'submit-review' %}" method="post">
     {% csrf_token %}

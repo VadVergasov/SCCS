@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}
+Table
+{% endblock %}
+
+{% block content %}
+<link href="{% static 'css/table.css' %}" rel="stylesheet">
+<div id="table-controls">
+    <label for="table-size">Размер таблицы: </label>
+    <input type="number" id="table-size" min="1">
+    <button id="create-table-button">Создать таблицу</button>
+</div>
+<div id="table-container">
+    <button id="transpose-button">Транспонировать</button>
+    <button id="add-row-button">Добавить ряд</button>
+    <button id="add-column-button">Добавить колонку</button>
+    <label for="max-selection">Макс. выбор ячеек в ряду/колонке: </label>
+    <input type="number" id="max-selection" min="1">
+    <table id="table"></table>
+</div>
+
+<form id="soldier-form">
+    <label for="lastname">Фамилия:</label>
+    <input type="text" id="lastname" required><br>
+    <label for="firstname">Имя:</label>
+    <input type="text" id="firstname" required><br>
+    <label for="patronymic">Отчество:</label>
+    <input type="text" id="patronymic" required><br>
+    <label for="age">Возраст:</label>
+    <input type="number" id="age" required><br>
+    <label for="height">Рост (140-210 см):</label>
+    <input type="number" id="height" min="140" max="210" required><br>
+    <input type="submit" value="Добавить военнослужащего">
+    <input type="submit" id="clear" value="Очистить данные ">
+</form>
+
+<p id="result"></p>
+
+<script type="text/javascript" src="{% static 'js/table.js' %}"></script>
+{% endblock %}

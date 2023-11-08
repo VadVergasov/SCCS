@@ -12,6 +12,69 @@
     background-color: #333;
 }
 
+.paralax {
+    transform-style: preserve-3d;
+    width: 10em;
+    height: 10em;
+    margin-right: 20px;
+}
+
+@keyframes reset-card {
+    to {
+        background-position: 50% 50%;
+        transform:
+            rotateY(0) rotateX(0);
+    }
+}
+
+.partner-icon {
+    width: 5em;
+    height: 5em;
+    border-radius: 50%;
+    background-color: #3498db;
+    box-shadow: 0 4px 6px rgba(209, 5, 5, 0.842);
+    margin-right: 20px;
+    width: 100%;
+    height: 100%;
+    --posx: 50%;
+    --posy: 50%;
+    --rotateX: 0;
+    --rotateY: 0;
+    inset: 1rem;
+    transform:
+        perspective(100em) translatez(0em) rotateY(var(--rotateX)) rotateX(var(--rotateY));
+}
+
+.image {
+    position: absolute;
+    width: 20%;
+    height: 100%;
+    background-size: cover;
+    background-position: center center;
+    transition: opacity 0.5s;
+}
+
+.images-container {
+    margin: 1em;
+    position: relative;
+    height: 50vh;
+    overflow: hidden;
+}
+
+#image1 {
+    left: 0;
+    background-image: url("../img/left.jpeg");
+}
+
+#image2 {
+    right: 0;
+    background-image: url("../img/right.png");
+}
+
+#content {
+    padding: 20px;
+}
+
 body {
     font-family: 'Main', 'Alt', sans-serif;
     max-width: 100%;
@@ -32,15 +95,6 @@ body {
         font-size: 10px;
         background-color: #FAFAFA;
     }
-}
-
-.partner-icon {
-    width: 5em;
-    height: 5em;
-    border-radius: 50%;
-    background-color: #3498db;
-    box-shadow: 0 4px 6px rgba(209, 5, 5, 0.842);
-    margin-right: 20px;
 }
 
 .navbar-brand {

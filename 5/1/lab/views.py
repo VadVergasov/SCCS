@@ -66,3 +66,7 @@ def submit_review(request: HttpRequest):
         title=request.POST.get("title"), content=request.POST.get("review"), mark=request.POST.get("rating")
     )
     return redirect("index")
+
+
+def table(request: HttpRequest):
+    return render(request, "table.html")
