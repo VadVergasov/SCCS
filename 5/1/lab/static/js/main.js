@@ -103,3 +103,81 @@ document.addEventListener("DOMContentLoaded", function () {
         return daysOfWeek[date.getDay()];
     }
 });
+
+class Exhibit {
+    constructor(name, description) {
+        this.name = name;
+        this.description = description;
+    }
+
+    displayInfo() {
+        return `${this.name}: ${this.description}`;
+    }
+}
+
+class Painting extends Exhibit {
+    constructor(name, description, artist, style) {
+        super(name, description);
+        this.artist = artist;
+        this.style = style;
+    }
+
+    get paintingStyle() {
+        return this.style;
+    }
+
+    set paintingStyle(newStyle) {
+        this.style = newStyle;
+    }
+}
+
+function rateDecorator(painting, rating) {
+    painting.rating = rating;
+    const displayInfo = painting.displayInfo.bind(painting);
+    painting.displayInfo = function () {
+        return `${displayInfo()} (Rating: ${this.rating})`;
+    };
+}
+
+const starryNight = new Painting('Starry Night', 'Impressionist masterpiece', 'Vincent van Gogh', 'Post-Impressionism');
+rateDecorator(starryNight, 4);
+
+console.log(starryNight.displayInfo());
+
+function Exhibit(name, description) {
+    this.name = name;
+    this.description = description;
+}
+
+Exhibit.prototype.displayInfo = function () {
+    return `${this.name}: ${this.description}`;
+};
+
+function Painting(name, description, artist, style) {
+    Exhibit.call(this, name, description);
+    this.artist = artist;
+    this.style = style;
+}
+
+Painting.prototype = Object.create(Exhibit.prototype);
+
+Object.defineProperty(Painting.prototype, 'paintingStyle', {
+    get: function () {
+        return this.style;
+    },
+    set: function (newStyle) {
+        this.style = newStyle;
+    }
+});
+
+function rateDecorator(painting, rating) {
+    painting.rating = rating;
+    painting.displayInfo = function () {
+        return `${Exhibit.prototype.displayInfo.call(this)} (Rating: ${this.rating})`;
+    };
+}
+
+const monaLisa = new Painting('Mona Lisa', 'Famous portrait', 'Leonardo da Vinci', 'Renaissance');
+rateDecorator(monaLisa, 5);
+
+console.log(monaLisa.displayInfo());
