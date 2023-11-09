@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Билеты {% endblock %}
+
+{% block content %}
+
+<form class="ticket-form" method="POST" action="{% url 'buy-tickets' %}">
+    {% csrf_token %}
+    <h1>Покупка билета</h1>
+    <label for="ticketPrice">Цена билета: 15 руб.</label>
+
+    <br>
+    <label for="ticketQuantity">Количество билетов:</label>
+    <input type="number" name="count" id="ticketQuantity" min="1" value="1" required>
+
+    <br>
+    <label for="promoCode">Промокод:</label>
+    <input type="text" id="promoCode" placeholder="Введите промокод">
+
+    <button type="button" onclick="applyPromoCode()">Применить промокод</button>
+    <button type="button" onclick="resetPromoCode()">Сбросить промокод</button>
+
+    <p id="discountMessage"></p>
+
+    <p>Общая стоимость билетов: <input id="totalPriceMessage" name="price" readonly> руб.</p>
+
+    <input type="submit" value="Купить">
+</div>
+
+<script src="{% static 'js/ticket.js' %}"></script>
+
+{% endblock %}

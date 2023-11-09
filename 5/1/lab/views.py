@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http.request import HttpRequest
 
-from museum_api.models import Article, Review
+from museum_api.models import Article, Review, Ticket
 from museum_api.serializers import ArticleSerializer, ReviewSerializer
 
 
@@ -62,7 +62,7 @@ def get_article(request: HttpRequest, id: int):
 
 
 def submit_review(request: HttpRequest):
-    review = Review.objects.create(
+    _ = Review.objects.create(
         title=request.POST.get("title"), content=request.POST.get("review"), mark=request.POST.get("rating")
     )
     return redirect("index")
@@ -70,3 +70,12 @@ def submit_review(request: HttpRequest):
 
 def table(request: HttpRequest):
     return render(request, "table.html")
+
+
+def ticket(request: HttpRequest):
+    return render(request, "ticket.html")
+
+
+def buy_tickets(request: HttpRequest):
+    _ = Ticket.objects.create(count=request.POST.get("count"), price=request.POST.get("price"))
+    return redirect("index")

@@ -80,3 +80,9 @@ class Review(models.Model):
     content = models.TextField()
     mark = models.IntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
     creation_time = models.TimeField(auto_now=True)
+
+
+class Ticket(models.Model):
+    id = models.AutoField(primary_key=True)
+    count = models.IntegerField()
+    price = models.DecimalField(max_digits=10, decimal_places=2)
