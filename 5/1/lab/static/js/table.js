@@ -145,6 +145,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         soldiers.push({ lastname, firstname, patronymic, age, height });
 
+        var data = document.getElementById("data");
+        data.innerHTML = JSON.stringify(soldiers);
+
         var heightCount = {};
         var hasDuplicateHeight = false;
 

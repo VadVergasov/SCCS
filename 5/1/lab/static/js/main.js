@@ -144,40 +144,40 @@ rateDecorator(starryNight, 4);
 
 console.log(starryNight.displayInfo());
 
-function Exhibit(name, description) {
-    this.name = name;
-    this.description = description;
-}
+// function Exhibit(name, description) {
+//     this.name = name;
+//     this.description = description;
+// }
 
-Exhibit.prototype.displayInfo = function () {
-    return `${this.name}: ${this.description}`;
-};
+// Exhibit.prototype.displayInfo = function () {
+//     return `${this.name}: ${this.description}`;
+// };
 
-function Painting(name, description, artist, style) {
-    Exhibit.call(this, name, description);
-    this.artist = artist;
-    this.style = style;
-}
+// function Painting(name, description, artist, style) {
+//     Exhibit.call(this, name, description);
+//     this.artist = artist;
+//     this.style = style;
+// }
 
-Painting.prototype = Object.create(Exhibit.prototype);
+// Painting.prototype = Object.create(Exhibit.prototype);
 
-Object.defineProperty(Painting.prototype, 'paintingStyle', {
-    get: function () {
-        return this.style;
-    },
-    set: function (newStyle) {
-        this.style = newStyle;
-    }
-});
+// Object.defineProperty(Painting.prototype, 'paintingStyle', {
+//     get: function () {
+//         return this.style;
+//     },
+//     set: function (newStyle) {
+//         this.style = newStyle;
+//     }
+// });
 
-function rateDecorator(painting, rating) {
-    painting.rating = rating;
-    painting.displayInfo = function () {
-        return `${Exhibit.prototype.displayInfo.call(this)} (Rating: ${this.rating})`;
-    };
-}
+// function rateDecorator(painting, rating) {
+//     painting.rating = rating;
+//     painting.displayInfo = function () {
+//         return `${Exhibit.prototype.displayInfo.call(this)} (Rating: ${this.rating})`;
+//     };
+// }
 
-const monaLisa = new Painting('Mona Lisa', 'Famous portrait', 'Leonardo da Vinci', 'Renaissance');
-rateDecorator(monaLisa, 5);
+// const monaLisa = new Painting('Mona Lisa', 'Famous portrait', 'Leonardo da Vinci', 'Renaissance');
+// rateDecorator(monaLisa, 5);
 
-console.log(monaLisa.displayInfo());
+// console.log(monaLisa.displayInfo());

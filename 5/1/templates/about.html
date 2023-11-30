@@ -84,4 +84,20 @@
         {% endfor %}
     </table>
 </div>
+<form id="settingsForm">
+    <label>
+        <input type="checkbox" id="fontSizeCheckbox"> Изменить размер шрифта
+    </label>
+    <br>
+
+    <label>
+        <input type="checkbox" id="textColorCheckbox"> Изменить цвет текста
+    </label>
+    <br>
+
+    <label>
+        <input type="checkbox" id="backgroundColorCheckbox"> Изменить цвет фона
+    </label>
+</form>
+<script src="{% static 'js/customization.js' %}"></script>
 {% endblock %}
