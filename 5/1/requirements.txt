@@ -6,7 +6,7 @@ click==8.1.7
 colorama==0.4.6
 cryptography==41.0.3
 dill==0.3.7
-Django==4.2.5
+Django==4.2.7
 django-rest-framework==0.1.0
 djangorestframework==3.14.0
 djangorestframework-simplejwt==5.3.0
