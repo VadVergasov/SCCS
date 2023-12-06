@@ -1,0 +1,10 @@
+button {
+    border: none;
+    padding: 12px 24px;
+    margin: 8px;
+    font-size: 24px;
+    border-radius: 8px;
+    border: 2px solid;
+    cursor: pointer;
+    transition: color .17s ease-in-out, background-color .17s ease-in-out, border-color .17s ease-in-out, box-shadow .17s ease-in-out;
+}

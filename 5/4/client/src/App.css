@@ -1,0 +1,12 @@
+.resultContainer,
+.historyItem { 
+  flex-direction: row;
+  display: flex;
+  width: 400px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+* {
+  font: 100% "Roboto", "Arial", "Helvetica", sans-serif;
+}

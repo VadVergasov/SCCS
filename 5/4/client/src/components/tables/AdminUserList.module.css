@@ -1,0 +1,20 @@
+.userItem {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #bbb;
+    background-color: #eee;
+
+    border-radius: 10px;
+
+    transition: color .17s ease-in-out, background-color .17s ease-in-out, border-color .17s ease-in-out, box-shadow .17s ease-in-out;
+}
+  
+.userItem span {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: #333;
+}
+
+.userItem.selected {
+    background-color: #aaa;
+}

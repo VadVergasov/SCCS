@@ -1,0 +1,29 @@
+.authorItem {
+    margin: 10px;
+    padding: 10px;
+    border: 1px solid #bbb;
+    background-color: #eee;
+
+    border-radius: 10px;
+    cursor: pointer;
+
+    transition: color .17s ease-in-out, background-color .17s ease-in-out, border-color .17s ease-in-out, box-shadow .17s ease-in-out;
+}
+
+.authorItem:hover {
+    background-color: #ccc;
+}
+
+.authorItem:active {
+    background-color: #aaa;
+}
+  
+.authorItem span {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: #333;
+}
+
+.authorItem.selected {
+    background-color: #aaa;
+}
