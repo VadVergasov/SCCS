@@ -40,7 +40,7 @@ function CardItem(props) {
                     </Button>
 
                     <Button 
-                        style={{width: '95%', marginLeft: '10px', background: 'purple'}} 
+                        style={{width: '95%', marginLeft: '10px', background: 'blue'}} 
                         onClick={() => setIsCardUpdating(true)}
                     >
                         Update
@@ -82,7 +82,7 @@ const AdminCardList = observer(() => {
                 />
             )}
 
-            <Button style={{width: '95%', background: 'cornflowerblue'}} onClick={() => {setIsCardCreating(true)}}>
+            <Button style={{width: '95%', background: 'black'}} onClick={() => {setIsCardCreating(true)}}>
                 Add card
             </Button>
 

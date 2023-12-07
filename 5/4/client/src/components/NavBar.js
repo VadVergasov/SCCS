@@ -10,7 +10,7 @@ import Clock from './Clock';
 import BitcoinRate from './BitcoinRate';
 import JokeOfTheDay from './JokeOfTheDay';
 
-import { MUSEUM_URL, LOGIN_URL, ADMIN_URL, REGISTRATION_URL } from '../utils/urls';
+import { MUSEUM_URL, LOGIN_URL, ADMIN_URL, REGISTRATION_URL, ABOUT_URL } from '../utils/urls';
 
 
 const Navbar = observer(() => {
@@ -49,10 +49,25 @@ const Navbar = observer(() => {
                   </li>
                 }
                 <li onClick={removeActive}>
+                  <NavLink className={styles.navLink} to={ABOUT_URL}>About</NavLink>
+                </li>
+                <li onClick={removeActive}>
                   <NavLink className={styles.navLink} to={MUSEUM_URL} onClick={logOut}>Logout</NavLink>
+                </li>
+                <li>
+                  <Clock />
+                </li>
+                <li>
+                  <BitcoinRate />
+                </li>
+                <li>
+                  <JokeOfTheDay />
                 </li>
               </> 
             : <>
+                <li onClick={removeActive}>
+                  <NavLink className={styles.navLink} to={ABOUT_URL}>About</NavLink>
+                </li>
                 <li onClick={removeActive}>
                   <NavLink className={styles.navLink} to={REGISTRATION_URL}>Register</NavLink>
                 </li>

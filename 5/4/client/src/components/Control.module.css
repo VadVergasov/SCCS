@@ -2,7 +2,7 @@
     height: 48px;
     width: 400px;
     font-size: large;
-    border-radius: 8px;
+    border-radius: 15px;
     border: 1px solid grey;
     padding-left: 8px;
 }
@@ -66,7 +66,7 @@
     box-sizing: border-box;
     resize: none;
     font-size: large;
-    border-radius: 8px;
+    border-radius: 15px;
     border: 1px solid grey;
 }
 

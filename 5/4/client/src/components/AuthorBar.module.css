@@ -4,7 +4,7 @@
     border: 1px solid #bbb;
     background-color: #eee;
 
-    border-radius: 10px;
+    border-radius: 15px;
     cursor: pointer;
 
     transition: color .17s ease-in-out, background-color .17s ease-in-out, border-color .17s ease-in-out, box-shadow .17s ease-in-out;

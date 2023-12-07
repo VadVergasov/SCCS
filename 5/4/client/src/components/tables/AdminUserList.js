@@ -25,7 +25,7 @@ function UserItem(props) {
                     </div>
 
                     <Button 
-                        style={{width: '95%', marginLeft: '10px', background: 'purple'}} 
+                        style={{width: '95%', marginLeft: '10px', background: 'blue'}} 
                         onClick={() => setIsUserUpdating(true)}
                     >
                         Update

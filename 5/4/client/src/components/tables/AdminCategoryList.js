@@ -35,7 +35,7 @@ function CategoryItem(props) {
                     </Button>
 
                     <Button 
-                        style={{width: '95%', marginLeft: '10px', background: 'purple'}} 
+                        style={{width: '95%', marginLeft: '10px', background: 'blue'}} 
                         onClick={() => setIsCategoryUpdating(true)}
                     >
                         Update

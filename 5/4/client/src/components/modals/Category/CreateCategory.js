@@ -61,10 +61,10 @@ const CreateCategory = (props) => {
                 </div>
                 <div className={styles.actions}>
                     <div className={styles.container}>
-                        <Button className={styles.btn} style={{background: '#13a4FD'}} onClick={onAdd}>
+                        <Button className={styles.btn} style={{background: '#000'}} onClick={onAdd}>
                             Add
                         </Button>
-                        <Button className={styles.btn} style={{background: '#ff4050'}} onClick={onCancel}>
+                        <Button className={styles.btn} style={{background: 'red'}} onClick={onCancel}>
                             Cancel
                         </Button>
                     </div>
