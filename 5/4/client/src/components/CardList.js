@@ -22,9 +22,8 @@ function CardItem(props) {
                 style={{width: '100%', borderRadius: '15px'}}
             />
             <div>
-                <p style={{whiteSpace: 'nowrap'}}>{props.card.title}</p>
-                <br/>
-                <p style={{fontWeight: 'bold'}}>{props.card.price}</p>
+                <p style={{whiteSpace: 'nowrap', margin: '10px', fontSize: '1.5em '}}>{props.card.title}</p>
+                <p style={{fontWeight: 'bold', margin: '10px'}}>{props.card.price}</p>
             </div>
         </div>
     );

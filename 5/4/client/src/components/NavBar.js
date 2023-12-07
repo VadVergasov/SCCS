@@ -6,6 +6,9 @@ import { observer } from 'mobx-react-lite';
 
 import { useState } from 'react'
 import styles from './NavBar.module.css';
+import Clock from './Clock';
+import BitcoinRate from './BitcoinRate';
+import JokeOfTheDay from './JokeOfTheDay';
 
 import { MUSEUM_URL, LOGIN_URL, ADMIN_URL, REGISTRATION_URL } from '../utils/urls';
 
@@ -55,6 +58,15 @@ const Navbar = observer(() => {
                 </li>
                 <li onClick={removeActive}>
                   <NavLink className={styles.navLink} to={LOGIN_URL}>Login</NavLink>
+                </li>
+                <li>
+                  <Clock />
+                </li>
+                <li>
+                  <BitcoinRate />
+                </li>
+                <li>
+                  <JokeOfTheDay />
                 </li>
               </>
           }

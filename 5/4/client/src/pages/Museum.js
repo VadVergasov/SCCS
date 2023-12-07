@@ -26,25 +26,9 @@ const Museum = observer(() => {
         cardStore.setPattern("");
     }, []);
 
-    // useEffect(() => {
-    //     getCards(cardStore.selectedAuthor?.id)
-    //         .then(cards => {
-    //             cardStore.setCards(cards.rows);
-    //         });
-    // }, [cardStore.selectedAuthor])
-
-    // useEffect(() => {
-    //     getCards(cardStore.selectedAuthor?.id)
-    //         .then(cards => {
-    //             cardStore.setCards(cards.rows);
-    //         });
-    // }, [cardStore.selectedCategory])
-
-    
-
     return (
         <div style={{display: 'flex'}}>
-            <div style={{width: 'calc(100% /4)'}}>
+            <div style={{minWidth: 'calc(100% /4)', display: 'inline-block'}}>
                 <InputGroup >
                     <Control style={{width: '90%', margin: '15px'}}
                         value={search}
@@ -62,7 +46,7 @@ const Museum = observer(() => {
                 </div>
             </div>
 
-            <div style={{width: 'calc(100% * 3/4)'}}>
+            <div style={{maxWidth: 'calc(100% * 3/4)'}}>
                 <CardList />
             </div>
         </div>
